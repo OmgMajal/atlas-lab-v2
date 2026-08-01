@@ -25,10 +25,10 @@ If `gh` is not installed, use GitHub Desktop or install the GitHub CLI from the 
 
 ## 3. Clone the private repository
 
-Replace the placeholder with the private repository URL created for this project:
+Clone the confirmed private repository:
 
 ```powershell
-git clone https://github.com/<your-private-account>/atlas-lab-v2.git
+git clone https://github.com/MajalDidIt/atlas-lab-v2.git
 cd atlas-lab-v2
 ```
 

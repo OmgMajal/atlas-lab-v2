@@ -41,7 +41,7 @@ See [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) for the detailed development state.
 ## Install on Windows
 
 ```powershell
-git clone REPOSITORY_URL
+git clone https://github.com/MajalDidIt/atlas-lab-v2.git
 cd atlas-lab-v2
 copy .env.example .env
 node tests\run-all.js
