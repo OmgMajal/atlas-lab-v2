@@ -1,0 +1,1776 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Lab V2 | Capital Management</title>
+  <script src="atlas-theme-service.js?v=1"></script>
+  <script>window.AtlasThemeService.bootstrapFromStorage('atlas-lab-v2-atlas-state-v1');</script>
+  <link rel="stylesheet" href="styles.css?v=11">
+</head>
+<body>
+  <section id="loginScreen" class="login-screen">
+    <form id="loginForm" class="login-card">
+      <div class="brand login-brand">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
+          <rect x="4" y="4" width="36" height="36" rx="8"></rect>
+          <path d="M13 28h18M13 22h10M13 16h18M27 22l4 4 6-9"></path>
+        </svg>
+        <div>
+          <strong>Atlas</strong>
+          <span>Capital Management</span>
+        </div>
+      </div>
+      <h1>Secure Sign In</h1>
+      <p>Access is limited by role. Use owner, admin, or shareholder credentials.</p>
+      <label><span>Username</span><input name="username" type="text" autocomplete="username" required></label>
+      <label><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="primary-button full-button" type="submit">Sign In</button>
+      <div id="loginError" class="form-error" role="alert"></div>
+      <div class="login-help">
+        <strong>Demo access</strong>
+        <span>Owner: owner / owner123</span>
+        <span>Admin: admin / admin123</span>
+        <span>Shareholder: shareholder / client123</span>
+      </div>
+    </form>
+  </section>
+
+  <div class="shell">
+    <aside class="rail" aria-label="Main navigation">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
+          <rect x="4" y="4" width="36" height="36" rx="8"></rect>
+          <path d="M13 28h18M13 22h10M13 16h18M27 22l4 4 6-9"></path>
+        </svg>
+        <div>
+          <strong>Atlas</strong>
+          <span>Capital Desk</span>
+        </div>
+      </div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="dashboard" title="Dashboard">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Zm10 7h6V4h-6v16ZM4 20h6v-5H4v5Z"></path></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="calculator" title="Calculator Setup">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h2M14 12h2M8 16h2M14 16h2"></path></svg>
+          <span>Calculator Setup</span>
+        </button>
+        <button class="nav-item lab-nav-item" data-view="lab" title="Atlas Lab V2">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-8V3M8 15h8M7 18h10"></path></svg>
+          <span>Atlas Lab V2</span>
+        </button>
+        <button class="nav-item" data-view="ledger" title="Ledger">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Zm2 5h8M8 12h8M8 16h5"></path></svg>
+          <span>Ledger</span>
+        </button>
+        <button class="nav-item" data-view="portfolios" title="Portfolios">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v12H3zM7 7V4h10v3M3 11h18M9 15h6"></path></svg>
+          <span>Portfolios</span>
+        </button>
+        <button class="nav-item" data-view="operations" title="Platform Ops">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7M5 5h5v5H5z"></path></svg>
+          <span>Platform Ops</span>
+        </button>
+        <button class="nav-item" data-view="withdrawals" title="Expected Withdrawals">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 19h14"></path></svg>
+          <span>Withdrawals</span>
+        </button>
+        <button class="nav-item" data-view="payments" title="Payments">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v10H4zM4 10h16M8 15h4"></path></svg>
+          <span>Payments</span>
+        </button>
+        <button class="nav-item" data-view="shareholders" title="Shareholders">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 9a8 8 0 0 1 16 0M17 11l2 2 4-5"></path></svg>
+          <span>Shareholders</span>
+        </button>
+        <button class="nav-item" data-view="profitLoss" title="Profit/Loss">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-7"></path></svg>
+          <span>Profit/Loss</span>
+        </button>
+        <button class="nav-item" data-view="parties" title="Parties">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7l8-4 8 4v13M4 11l8 4 8-4M12 3v12M8 20v-5h8v5"></path></svg>
+          <span>Certified Holders</span>
+        </button>
+        <button class="nav-item" data-view="actions" title="Action Center">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2-1M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path></svg>
+          <span>Action Center</span>
+        </button>
+        <button class="nav-item" data-view="questions" title="Questions">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H8l-4 4V5Zm4 4h8M8 11h5"></path></svg>
+          <span>Questions</span>
+        </button>
+        <button class="nav-item" data-view="tasks" title="Admin Tasks">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4M21 12v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"></path></svg>
+          <span>Admin Tasks</span>
+        </button>
+        <button class="nav-item" data-view="settings" title="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-5v3M12 18v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M3 12h3M18 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"></path></svg>
+          <span>Settings</span>
+        </button>
+        <button class="nav-item" data-view="appearance" title="Appearance & Branding">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 0-4H12a1.5 1.5 0 0 1 0-3h3a6 6 0 0 0 0-12h-3ZM7.5 9h.01M9.5 6.5h.01M14.5 6.5h.01M17 9h.01"></path></svg>
+          <span>Appearance</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">Owner Dashboard</h1>
+          <p id="pageSubtitle">Capital, payments, profit/loss, and operational reporting.</p>
+        </div>
+        <div class="lab-topbar-badge" aria-label="Test environment">
+          <span>TEST ENVIRONMENT</span>
+          <strong>Atlas Lab V2</strong>
+        </div>
+        <div class="toolbar">
+          <label>
+            <span>From</span>
+            <input id="filterFrom" type="date">
+          </label>
+          <label>
+            <span>To</span>
+            <input id="filterTo" type="date">
+          </label>
+          <button id="resetData" class="icon-button" title="Clear all data" type="button" data-owner-only>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3L4 10M4 15a8 8 0 0 0 14 3l2-4"></path></svg>
+          </button>
+          <button id="exportData" class="secondary-button" type="button" data-owner-only>Export Data</button>
+          <button id="importDataButton" class="secondary-button" type="button" data-owner-only>Import Data</button>
+          <input id="importDataFile" type="file" accept="application/json,.json" hidden>
+          <div class="session-pill">
+            <span id="sessionName">Not signed in</span>
+            <strong id="sessionRole">Guest</strong>
+          </div>
+          <button id="logoutButton" class="secondary-button" type="button">Sign Out</button>
+        </div>
+      </header>
+
+      <section id="dashboard" class="view active">
+        <div class="kpi-grid">
+          <article class="kpi">
+            <span>Total Company Capital</span>
+            <strong id="kpiCapital">$0</strong>
+            <small id="kpiCapitalMeta">active accounts</small>
+          </article>
+          <article class="kpi">
+            <span>Available Capital</span>
+            <strong id="kpiAvailableCapital">$0</strong>
+            <small id="kpiAvailableCapitalMeta">spendable money</small>
+          </article>
+          <article class="kpi">
+            <span>Reserved Capital</span>
+            <strong id="kpiReservedCapital">$0</strong>
+            <small id="kpiReservedCapitalMeta">locked operations</small>
+          </article>
+          <article class="kpi">
+            <span>Total Profit</span>
+            <strong id="kpiBenefit">$0</strong>
+            <small id="kpiBenefitMeta">selected period</small>
+          </article>
+          <article class="kpi">
+            <span>Shareholder Payable</span>
+            <strong id="kpiPayable">$0</strong>
+            <small id="kpiPayableMeta">distribution</small>
+          </article>
+          <article class="kpi">
+            <span>Company Retained</span>
+            <strong id="kpiRetained">$0</strong>
+            <small id="kpiRetainedMeta">from profit split</small>
+          </article>
+          <article class="kpi">
+            <span>Pending Payments</span>
+            <strong id="kpiPendingPayments">$0</strong>
+            <small id="kpiPendingMeta">awaiting completion</small>
+          </article>
+          <article class="kpi">
+            <span>Completed Payments</span>
+            <strong id="kpiCompletedPayments">$0</strong>
+            <small id="kpiCompletedMeta">selected data</small>
+          </article>
+          <article class="kpi">
+            <span>Active Sessions</span>
+            <strong id="kpiActiveSessions">0</strong>
+            <small id="kpiActiveSessionsMeta">operations in progress</small>
+          </article>
+          <article class="kpi">
+            <span>Accounts Needing Attention</span>
+            <strong id="kpiAttentionAccounts">0</strong>
+            <small id="kpiAttentionAccountsMeta">status or turnover review</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel chart-panel">
+            <div class="panel-head">
+              <h2>Daily P&amp;L</h2>
+              <span id="chartSummary">Ready for fresh data</span>
+            </div>
+            <canvas id="pnlChart" width="960" height="320" aria-label="Daily net income chart"></canvas>
+          </section>
+
+          <section class="panel risk-panel">
+            <div class="panel-head">
+              <h2>Checks</h2>
+              <span id="riskCount">0</span>
+            </div>
+            <div id="riskList" class="risk-list"></div>
+          </section>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Top Shareholders by Capital</h2>
+              <span id="topCapitalMeta">0 records</span>
+            </div>
+            <div id="topCapitalList" class="mini-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Top Shareholders by Payable Profit</h2>
+              <span id="topPayableMeta">0 records</span>
+            </div>
+            <div id="topPayableList" class="mini-list"></div>
+          </section>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Operational Queue</h2>
+              <span id="operationalSummaryMeta">0 items</span>
+            </div>
+            <div id="operationalSummary" class="mini-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Notifications &amp; Tasks</h2>
+              <span id="actionSummaryMeta">0 items</span>
+            </div>
+            <div id="actionSummary" class="mini-list"></div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Daily Income</h2>
+            <span id="dailyCount">0 rows</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Bet</th>
+                  <th>Site</th>
+                  <th>Benefit</th>
+                  <th>Costs</th>
+                  <th>Net</th>
+                </tr>
+              </thead>
+              <tbody id="dailyBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="lab" class="view lab-view">
+        <div id="atlasLabMount"></div>
+      </section>
+
+      <section id="calculator" class="view calculator-workspace">
+        <header class="calculator-topbar">
+          <div>
+            <p class="eyebrow">Focused operational tool</p>
+            <h1>Atlas Operations Calculator</h1>
+            <p>Calculate first, assign accounts second, then confirm execution and settlement.</p>
+          </div>
+          <button id="returnToAtlas" class="secondary-button" type="button">Return to Main Atlas</button>
+        </header>
+
+        <div id="calculatorHome" class="calculator-home">
+          <section class="calculator-home-grid" aria-label="Calculator types">
+            <article class="calculator-type-card">
+              <h2>Two-Way Calculator</h2>
+              <p>Simple two-result allocation for winner markets.</p>
+              <button class="primary-button" type="button" data-open-calculator="Two Outcome" data-calculator-mode="Equal Scenario Profit">Open Calculator</button>
+            </article>
+            <article class="calculator-type-card">
+              <h2>Three-Way 1X2 Calculator</h2>
+              <p>Team 1, Draw, Team 2 stake planning.</p>
+              <button class="primary-button" type="button" data-open-calculator="Three Outcome" data-calculator-mode="Equal Scenario Profit">Open Calculator</button>
+            </article>
+            <article class="calculator-type-card">
+              <h2>1X2 + Draw No Bet</h2>
+              <p>Compare direct 1X2 with DNB-assisted positions.</p>
+              <button class="primary-button" type="button" data-open-calculator="Mixed/DNB" data-calculator-mode="Equal Scenario Profit">Open Calculator</button>
+            </article>
+            <article class="calculator-type-card">
+              <h2>Manual Allocation Analysis</h2>
+              <p>Enter your own stakes and inspect possible outcomes.</p>
+              <button class="primary-button" type="button" data-open-calculator="Three Outcome" data-calculator-mode="Manual Stakes">Open Calculator</button>
+            </article>
+            <article class="calculator-type-card">
+              <h2>Fixed Stake Calculator</h2>
+              <p>Lock one or more stakes and review the exposure.</p>
+              <button class="primary-button" type="button" data-open-calculator="Three Outcome" data-calculator-mode="Manual Stakes">Open Calculator</button>
+            </article>
+            <article class="calculator-type-card">
+              <h2>Target Return Calculator</h2>
+              <p>Calculate stake requirements for a target gross return.</p>
+              <button class="primary-button" type="button" data-open-calculator="Three Outcome" data-calculator-mode="Target Gross Return">Open Calculator</button>
+            </article>
+          </section>
+
+          <section class="calculator-saved-strip">
+            <div class="panel-head">
+              <h2>Recent Calculator Sessions</h2>
+              <span id="calculatorSessionMeta">0 sessions</span>
+            </div>
+            <div id="calculatorSessionList" class="session-list"></div>
+          </section>
+        </div>
+
+        <div id="calculatorWorkbench" class="calculator-workbench compact-calculator" hidden>
+          <header class="compact-session-bar">
+            <div class="compact-session-identity">
+              <strong id="compactSessionName">New Operation Session</strong>
+              <span id="compactSessionClient">No client</span>
+              <span id="compactSessionTarget">Target 97%</span>
+              <span id="calculatorSessionStatus" class="status-badge">Draft</span>
+              <span id="compactSaveState" class="save-state">Not saved</span>
+            </div>
+            <div class="compact-session-actions">
+              <button id="compactSaveButton" class="icon-text-button" type="button" title="Save calculation">Save</button>
+              <button class="icon-text-button" type="button" data-open-calculator-dialog="calculatorSessionDetailsDialog">Session Details</button>
+              <button class="icon-text-button" type="button" data-open-calculator-dialog="calculatorManageAccountsDialog">Manage Accounts</button>
+              <button id="addSessionEventButton" class="icon-text-button" type="button">Add Event</button>
+              <button class="icon-text-button" type="button" data-open-calculator-dialog="calculatorMixDialog">Add Mix</button>
+              <button id="returnToAtlasWorkbench" class="secondary-button compact-button" type="button">Return to Main Atlas</button>
+            </div>
+          </header>
+
+          <div id="calculatorKpiStrip" class="calculator-kpi-strip" aria-label="Session key performance indicators"></div>
+
+          <div class="calculator-command-row">
+            <nav class="calculator-view-tabs" aria-label="Calculator views">
+              <button class="calculator-view-tab is-active" type="button" data-calculator-view="allocation">Allocation</button>
+              <button class="calculator-view-tab" type="button" data-calculator-view="balancing">Balancing</button>
+              <button class="calculator-view-tab" type="button" data-calculator-view="turnover">Turnover</button>
+              <button class="calculator-view-tab" type="button" data-calculator-view="results">Results</button>
+            </nav>
+            <div class="calculator-layout-controls">
+              <label class="compact-control"><span>Density</span><select id="calculatorDensity"><option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="ultra-compact">Ultra Compact</option></select></label>
+              <button id="resetCalculatorLayout" class="icon-button compact-button" type="button" title="Reset Calculator layout" aria-label="Reset Calculator layout">&#8634;</button>
+            </div>
+          </div>
+
+          <section id="compactWarningStrip" class="calculator-warning-strip" aria-live="polite"></section>
+
+          <main class="calculator-view-stage">
+            <section class="calculator-view-panel" data-calculator-view-panel="allocation">
+              <div class="calculator-grid-toolbar">
+                <label class="grid-filter"><span class="sr-only">Search Session Accounts</span><input id="calculatorAccountSearch" type="search" placeholder="Search accounts"></label>
+                <label class="grid-filter"><span class="sr-only">Filter Session Accounts</span><select id="calculatorAccountFilter"><option value="all">All accounts</option><option value="active">Active allocations</option><option value="cash">Cash available</option><option value="bonus">Bonus available</option><option value="freebet">Free Bet available</option><option value="turnover">Turnover pending</option><option value="warning">Warnings</option></select></label>
+                <span id="sessionPoolMeta" class="status-badge">0 accounts</span>
+                <button class="secondary-button compact-button" type="button" data-open-calculator-dialog="calculatorManageAccountsDialog">Manage Accounts</button>
+                <button class="secondary-button compact-button" type="button" data-open-calculator-dialog="calculatorEventDetailsDialog">Event Details</button>
+              </div>
+              <div id="calculatorDesktopGrid" class="session-grid-shell calculator-grid-shell" tabindex="0" aria-label="Session allocation grid">
+                <table id="sessionMoneyGrid" class="session-money-grid compact-money-grid"><thead id="sessionMoneyGridHead"></thead><tbody id="sessionMoneyGridBody"></tbody></table>
+              </div>
+              <div id="calculatorMobileWorkspace" class="calculator-mobile-workspace"></div>
+            </section>
+
+            <section class="calculator-view-panel" data-calculator-view-panel="balancing" hidden>
+              <div class="view-panel-head">
+                <div><h2>Exposure and Balance</h2><p>Compare current outcome returns with the Owner target.</p></div>
+                <div class="action-row">
+                  <button class="secondary-button compact-button" type="button" data-open-calculator-dialog="calculatorMathDetailsDialog">Calculation Details</button>
+                  <button class="secondary-button compact-button" type="button" data-open-calculator-dialog="calculatorMixDialog">Mix Details</button>
+                </div>
+              </div>
+              <div id="calculatorBalancingView" class="compact-view-content"></div>
+            </section>
+
+            <section class="calculator-view-panel" data-calculator-view-panel="turnover" hidden>
+              <div class="view-panel-head">
+                <div><h2>Turnover Monitor</h2><p>Account obligations and this Session's contribution.</p></div>
+                <button class="secondary-button compact-button" type="button" data-open-calculator-dialog="calculatorManageAccountsDialog">Account Details</button>
+              </div>
+              <div id="calculatorTurnoverView" class="compact-view-content"></div>
+            </section>
+
+            <section class="calculator-view-panel" data-calculator-view-panel="results" hidden>
+              <div class="view-panel-head">
+                <div><h2>Execution and Results</h2><p>Only executed allocations affect settlement.</p></div>
+                <span id="executionSummaryMeta" class="status-badge">No saved operation selected</span>
+              </div>
+              <div id="calculatorResultsView" class="compact-view-content"></div>
+              <div class="results-action-grid">
+                <section class="unframed-tool">
+                  <h3>Execution</h3>
+                  <div id="executionControls" class="execution-controls"></div>
+                </section>
+                <section class="unframed-tool">
+                  <h3>Result and Settlement</h3>
+                  <div id="resultEntryControls" class="execution-controls"></div>
+                </section>
+              </div>
+              <details class="compact-detail-block">
+                <summary>Final Operation Plan and balances</summary>
+                <div class="section-head">
+                  <h3>Final Operation Plan</h3>
+                  <button id="saveOperationPlan" class="primary-button compact-button" type="button">Save Operation</button>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Client</th><th>User</th><th>Platform</th><th>Account</th><th>Event</th><th>Outcome</th><th>Odds</th><th>Cash</th><th>Bonus</th><th>Free Bet</th><th>Final Stake</th></tr></thead>
+                    <tbody id="operationPlanBody"></tbody>
+                  </table>
+                </div>
+                <div class="section-head">
+                  <h3>Final Rollover and Balance Summary</h3>
+                  <div class="report-export-actions" aria-label="Operation report downloads">
+                    <button id="exportOperationSpreadsheet" class="secondary-button compact-button" type="button">Export Excel</button>
+                    <button id="exportOperationPdfEnglish" class="secondary-button compact-button" type="button">English PDF</button>
+                    <button id="exportOperationPdfPersian" class="secondary-button compact-button" type="button" lang="fa" dir="rtl">PDF فارسی</button>
+                  </div>
+                </div>
+                <p class="export-note">PDF reports use the same saved historical operation data and filters as the spreadsheet.</p>
+                <form id="operationExportFilters" class="export-filter-bar">
+                  <label><span>Export</span><select name="scope"><option value="current">Current calculation session</option><option value="filtered">Saved sessions by filter</option></select></label>
+                  <label><span>From</span><input name="dateFrom" type="date"></label>
+                  <label><span>To</span><input name="dateTo" type="date"></label>
+                  <label><span>Client</span><select name="exportClientId"></select></label>
+                  <label><span>User</span><select name="exportUserId"></select></label>
+                  <label><span>Platform</span><select name="exportPlatformId"></select></label>
+                  <label><span>Account</span><select name="exportPlatformAccountId"></select></label>
+                </form>
+                <div id="finalBalanceSummary" class="session-list"></div>
+              </details>
+            </section>
+          </main>
+
+          <footer id="calculatorSummaryFooter" class="calculator-summary-footer"></footer>
+
+          <dialog id="calculatorSessionDetailsDialog" class="calculator-drawer" aria-labelledby="sessionDetailsTitle">
+            <div class="drawer-head">
+              <div><p class="eyebrow">Session</p><h2 id="sessionDetailsTitle">Session Details</h2></div>
+              <button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Session Details">&times;</button>
+            </div>
+            <form id="calculatorSessionForm" class="field-grid">
+              <label class="field"><span>Session name</span><input name="sessionName" type="text" required></label>
+              <label class="field"><span>Target return %</span><input name="targetReturnPercentage" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Start date</span><input name="startDate" type="date" required></label>
+              <label class="field"><span>Expected end date</span><input name="expectedEndDate" type="date"></label>
+              <label class="field"><span>Expected turnover completion</span><input name="expectedRolloverDate" type="date"></label>
+              <label class="field"><span>Session objective</span><input name="objective" type="text"></label>
+              <label class="field full"><span>Description</span><textarea name="description" rows="2"></textarea></label>
+              <label class="field full"><span>Session notes</span><textarea name="notes" rows="3" placeholder="Operational notes"></textarea></label>
+              <label class="field"><span>Account column width</span><input id="calculatorFixedColumnWidth" type="range" min="190" max="360" step="10"></label>
+              <label class="field"><span>Event column width</span><input id="calculatorEventColumnWidth" type="range" min="140" max="280" step="10"></label>
+            </form>
+            <div id="compactSessionHistory" class="compact-history"></div>
+          </dialog>
+
+          <dialog id="calculatorManageAccountsDialog" class="calculator-drawer wide-drawer" aria-labelledby="manageAccountsTitle">
+            <div class="drawer-head">
+              <div><p class="eyebrow">Shared capital</p><h2 id="manageAccountsTitle">Manage Session Accounts</h2></div>
+              <button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Manage Accounts">&times;</button>
+            </div>
+            <form id="sessionAccountPoolForm" class="field-grid">
+              <label class="field"><span>Client</span><select name="clientId"></select></label>
+              <label class="field"><span>User</span><select name="userId"></select></label>
+              <label class="field"><span>Platform</span><select name="platformId"></select></label>
+              <label class="field"><span>Platform account</span><select name="platformAccountId"></select></label>
+              <label class="field"><span>Current cash</span><input name="cashBalance" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Current bonus</span><input name="bonusBalance" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Current Free Bet</span><input name="freeBetBalance" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Remaining turnover</span><input name="remainingTurnover" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Date and time</span><input name="addedAt" type="datetime-local"></label>
+              <label class="field full"><span>Reason for adding account</span><input name="reason" type="text" placeholder="Capital, bonus capacity, turnover, or platform access" required></label>
+              <button class="primary-button" type="submit">Add Account to Active Session</button>
+            </form>
+            <div id="sessionAccountPoolSummary" class="session-pool-list"></div>
+            <details class="compact-detail-block">
+              <summary>Account bookmarks and Quick Platform Funding</summary>
+              <div class="split-grid compact-split">
+                <div id="calculatorBookmarkList" class="bookmark-list"></div>
+                <form id="quickFundingForm" class="quick-funding-form">
+                  <div class="form-grid">
+                    <label><span>User</span><select name="userId"></select></label>
+                    <label><span>Source Wallet / Bank</span><select name="sourceAccountId"></select></label>
+                    <label><span>Platform Account</span><select name="platformAccountId"></select></label>
+                    <label><span>Amount</span><input name="amount" type="number" min="0" step="0.01"></label>
+                    <label class="full"><span>Notes</span><input name="notes" type="text" placeholder="Quick funding note"></label>
+                  </div>
+                  <button class="primary-button" type="submit">Record Funding</button>
+                </form>
+              </div>
+            </details>
+          </dialog>
+
+          <dialog id="calculatorEventDetailsDialog" class="calculator-drawer wide-drawer" aria-labelledby="eventDetailsTitle">
+            <div class="drawer-head">
+              <div><p class="eyebrow">Active event</p><h2 id="eventDetailsTitle">Event Details and Odds</h2></div>
+              <button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Event Details">&times;</button>
+            </div>
+            <form id="calculatorSetupForm" class="calculator-flow compact-details-flow" data-step="setup">
+              <div class="segmented" role="group" aria-label="Calculator type">
+                <button type="button" class="segment" data-market-choice="Two Outcome">Two-Way</button>
+                <button type="button" class="segment is-active" data-market-choice="Three Outcome">Three-Way</button>
+                <button type="button" class="segment" data-market-choice="Mixed/DNB">1X2 + DNB</button>
+              </div>
+              <div class="field-grid">
+                <label class="field"><span>Mode</span><select name="mode"><option>Equal Scenario Profit</option><option>Target Gross Return</option><option>Manual Stakes</option></select></label>
+                <label class="field"><span>Total Capital</span><input name="totalCapital" type="number" min="0" step="0.01" value="1000" required></label>
+                <label class="field"><span>Stake Increment</span><select name="increment"><option value="0.01">0.01</option><option value="0.10">0.10</option><option value="1">1</option><option value="5">5</option><option value="10">10</option></select></label>
+                <label class="field"><span>Target Gross Return</span><input name="targetReturn" type="number" min="0" step="0.01" value="1000"></label>
+                <label class="field"><span>Event name</span><input name="eventName" type="text" placeholder="Example: Team 1 vs Team 2" required></label>
+                <label class="field"><span>Date</span><input name="eventDate" type="date" required></label>
+                <label class="field"><span>Market</span><input name="marketName" type="text" value="Match Winner"></label>
+                <label class="field"><span>Settlement Period</span><input name="settlementPeriod" type="text" placeholder="2026-07"></label>
+                <label class="field full"><span>Notes</span><textarea name="notes" rows="2" placeholder="Manual notes"></textarea></label>
+                <select name="marketType" hidden><option>Three Outcome</option><option>Two Outcome</option><option>Mixed/DNB</option></select>
+              </div>
+              <div class="section-head">
+                <h3>Odds and Stakes</h3>
+                <span id="calculatorOutcomeMeta" class="status-badge">0 outcomes</span>
+                <span id="calculatorModePill" hidden>Three-Way</span>
+              </div>
+              <div id="calculatorOutcomeBody" class="calculator-outcome-grid"></div>
+              <div id="manualCoverageBoard" class="manual-coverage-board"></div>
+              <div id="stakePlacementPrompt" class="stake-placement-list"></div>
+              <div class="drawer-actions">
+                <button id="backToCalculatorHome" class="secondary-button" type="button">Calculator Home</button>
+                <button id="resetCalculatorOutcomes" class="secondary-button" type="button">Reset Outcomes</button>
+                <button class="primary-button" type="submit">Calculate Required Stakes</button>
+              </div>
+            </form>
+            <div id="sessionEventList" class="session-event-list"></div>
+          </dialog>
+
+          <dialog id="calculatorMathDetailsDialog" class="calculator-drawer wide-drawer" aria-labelledby="mathDetailsTitle">
+            <div class="drawer-head">
+              <div><p class="eyebrow">Calculation</p><h2 id="mathDetailsTitle">Calculation and Allocation Details</h2></div>
+              <button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Calculation Details">&times;</button>
+            </div>
+            <div class="calculator-summary-card compact-summary-panel">
+              <div class="panel-head"><h3>Calculation Summary</h3><span id="calculatorSummaryMeta">Ready</span></div>
+              <div id="calculatorSummary" class="mini-list"></div>
+              <div id="calculatorWarnings" class="risk-list calculator-warnings"></div>
+              <button id="saveCalculatorSession" class="primary-button full-button" type="button">Save Calculation</button>
+            </div>
+            <div class="section-head"><h3>Possible Outcomes</h3><span id="calculatorScenarioMeta" class="status-badge">0 scenarios</span></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Outcome</th><th>Odds</th><th>Total Stake</th><th>Gross Return</th><th>Profit/Loss</th><th>ROI</th></tr></thead><tbody id="calculatorResultBody"></tbody></table>
+            </div>
+            <details class="compact-detail-block">
+              <summary>Original scenario forecast</summary>
+              <div class="table-wrap"><table><thead><tr><th>Possible Result</th><th>Expected Gross Return</th><th>Expected Profit/Loss</th><th>Expected ROI</th></tr></thead><tbody id="calculatorScenarioBody"></tbody></table></div>
+            </details>
+            <div class="section-head"><h3>Assign Platform Accounts</h3><button id="assignAccountsButton" class="secondary-button compact-button" type="button">Refresh Eligibility</button></div>
+            <div id="calculatorAssignmentList" class="assignment-list"></div>
+          </dialog>
+
+          <dialog id="calculatorMixDialog" class="calculator-drawer wide-drawer" aria-labelledby="mixDetailsTitle">
+            <div class="drawer-head">
+              <div><p class="eyebrow">Sequential exposure</p><h2 id="mixDetailsTitle">Mix Details</h2></div>
+              <button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Mix Details">&times;</button>
+            </div>
+            <section class="mix-workspace">
+              <div class="section-head">
+                <h3>Bet Structure and Mix Management</h3>
+                <div class="action-row"><span id="mixStatusBadge" class="status-badge">No Mix</span><button id="viewMixReport" class="secondary-button compact-button" type="button" hidden>Mix Details</button></div>
+              </div>
+              <label class="field compact-select"><span>Bet Structure</span><select id="betStructure"><option value="">Select Bet Structure</option><option value="Single">Single</option><option value="Mix">Mix</option></select></label>
+              <div id="singleFreeBetPanel" class="mix-subpanel" hidden>
+                <h3>Single-Event Free Bet Valuation</h3>
+                <div class="field-grid"><label class="field"><span>Free Bet Stake</span><input id="singleFreeBetStake" type="number" min="0" step="0.01"></label><label class="field"><span>Original Locked Odds</span><input id="singleFreeBetOdds" type="number" min="1.01" step="0.01"></label></div>
+                <div id="singleFreeBetResult" class="mix-value-strip"></div>
+              </div>
+              <div id="mixBuilder" class="mix-builder" hidden>
+                <div class="mix-builder-grid">
+                  <div class="mix-subpanel">
+                    <h3>Main Ticket</h3>
+                    <div class="field-grid compact-fields">
+                      <label class="field full"><span>Main Platform Account</span><select id="mixMainAccount"><option value="">Select Platform Account</option></select></label>
+                      <label class="field"><span>Ticket Reference</span><input id="mixTicketReference" type="text"></label>
+                      <label class="field"><span>Cash Portion</span><input id="mixCashPortion" type="number" min="0" step="0.01"></label>
+                      <label class="field"><span>Normal Bonus Portion</span><input id="mixBonusPortion" type="number" min="0" step="0.01"></label>
+                      <label class="field"><span>Free Bet Portion</span><input id="mixFreeBetPortion" type="number" min="0" step="0.01"></label>
+                      <label class="field"><span>Minimum Gap</span><input id="mixMinimumGap" type="number" min="0" step="1" value="15"></label>
+                      <label class="field"><span>Recommended Gap</span><input id="mixRecommendedGap" type="number" min="0" step="1" value="30"></label>
+                      <label class="field"><span>Primary Goal</span><select id="mixPrimaryGoal"><option value="">Select Primary Goal</option><option>Free Bet Conversion</option><option>Minimum Required Capital</option><option>Complete Turnover</option><option>Reduce Worst-Case Loss</option><option>Preserve Target Return</option><option>Increase Safety</option></select></label>
+                      <label class="field"><span>Secondary Goal</span><select id="mixSecondaryGoal"><option value="">Select Secondary Goal</option><option>Free Bet Conversion</option><option>Minimum Required Capital</option><option>Complete Turnover</option><option>Reduce Worst-Case Loss</option><option>Preserve Target Return</option><option>Increase Safety</option></select></label>
+                      <label class="field"><span>Minimum Target Return %</span><input id="mixTargetReturn" type="number" min="0" step="0.01"></label>
+                      <label class="field full"><span>Owner Override Reason</span><input id="mixOverrideReason" type="text" placeholder="Required only when a timing rule needs Owner override"></label>
+                    </div>
+                  </div>
+                  <form id="mixLegForm" class="mix-subpanel">
+                    <h3>Add Mix Leg</h3>
+                    <div class="field-grid compact-fields">
+                      <label class="field"><span>Session Event</span><select name="eventId"><option value="">Select Event</option></select></label>
+                      <label class="field"><span>Compact New Event</span><input name="eventName" type="text"></label>
+                      <label class="field"><span>Market</span><input name="market" type="text" required></label>
+                      <label class="field"><span>Selected Outcome</span><input name="outcome" type="text" required></label>
+                      <label class="field"><span>Locked Odds</span><input name="lockedOdds" type="number" min="1.01" step="0.01" required></label>
+                      <label class="field"><span>Event Start</span><input name="eventStartTime" type="datetime-local" required></label>
+                      <label class="field"><span>Expected Settlement</span><input name="expectedSettlementTime" type="datetime-local" required></label>
+                    </div>
+                    <button class="secondary-button" type="submit">Add Mix Leg</button>
+                  </form>
+                </div>
+                <div id="mixTimeline" class="mix-timeline"></div>
+                <div id="mixValueSummary" class="mix-value-strip"></div>
+                <div id="mixReportPanel" class="mix-report-panel" hidden></div>
+                <div class="mix-actions">
+                  <button id="newMixTicket" class="secondary-button" type="button">New Mix</button>
+                  <button id="saveMixDraft" class="secondary-button" type="button">Save Draft</button>
+                  <button id="lockMixTicket" class="primary-button" type="button">Lock Ticket</button>
+                  <button id="placeMixTicket" class="primary-button" type="button">Confirm Placed</button>
+                </div>
+                <details class="compact-detail-block">
+                  <summary>Current active leg, balancing, and external hedges</summary>
+                  <div id="mixExposureSummary" class="mix-value-strip"></div>
+                  <div class="mix-builder-grid">
+                    <div class="mix-subpanel">
+                      <h3>Pre-Suggest Balance</h3>
+                      <label class="field"><span>Available Hedge Odds</span><input id="mixSuggestionOdds" type="number" min="1.01" step="0.01"></label>
+                      <button id="generateMixSuggestion" class="secondary-button" type="button">Generate Mix Suggestion</button>
+                      <div id="mixSuggestionResult" class="mix-suggestion"></div>
+                    </div>
+                    <form id="mixHedgeForm" class="mix-subpanel">
+                      <h3>Record Manual Hedge</h3>
+                      <div class="field-grid compact-fields">
+                        <label class="field full"><span>Platform Account</span><select name="platformAccountId"><option value="">Select Platform Account</option></select></label>
+                        <label class="field"><span>Outcome</span><select name="outcome"><option value="">Select Outcome</option><option>Selected Outcome</option><option>Opposite Outcome</option></select></label>
+                        <label class="field"><span>Stake Type</span><select name="stakeType"><option value="">Select Stake Type</option><option>Cash</option><option>Normal Bonus</option><option>Free Bet</option></select></label>
+                        <label class="field"><span>Stake Amount</span><input name="stakeAmount" type="number" min="0.01" step="0.01" required></label>
+                        <label class="field"><span>Locked Odds</span><input name="lockedOdds" type="number" min="1.01" step="0.01" required></label>
+                        <label class="field"><span>Execution</span><select name="executedStatus"><option value="">Select Execution Status</option><option>Draft</option><option>Executed</option></select></label>
+                      </div>
+                      <button class="secondary-button" type="submit">Add Hedge Allocation</button>
+                    </form>
+                  </div>
+                  <form id="mixLegResultForm" class="mix-result-form">
+                    <label class="field"><span>Current Active Leg Result</span><select name="result"><option value="">Select Result</option><option>Won</option><option>Lost</option><option>Void</option><option>Refunded</option></select></label>
+                    <button class="secondary-button" type="submit">Record Leg Result</button>
+                  </form>
+                </details>
+              </div>
+            </section>
+          </dialog>
+
+          <dialog id="calculatorAccountPreviewDialog" class="calculator-popover-dialog" aria-labelledby="accountPreviewTitle">
+            <div class="drawer-head"><h2 id="accountPreviewTitle">Account Preview</h2><button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Account Preview">&times;</button></div>
+            <div id="calculatorAccountPreviewBody"></div>
+          </dialog>
+
+          <dialog id="calculatorAllocationDialog" class="calculator-popover-dialog allocation-editor-dialog" aria-labelledby="allocationEditorTitle">
+            <div class="drawer-head"><div><p class="eyebrow">Allocation</p><h2 id="allocationEditorTitle">Edit Allocation</h2></div><button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Allocation Editor">&times;</button></div>
+            <form id="calculatorCellEditorForm">
+              <div id="calculatorCellContext" class="cell-editor-context"></div>
+              <div class="field-grid compact-fields">
+                <label class="field full"><span>Outcome</span><select name="outcomeId"><option value="">Select Outcome</option></select></label>
+                <label class="field"><span>Odds</span><input name="odds" type="number" min="1.01" step="0.01"></label>
+                <label class="field"><span>Stake</span><input name="stake" type="number" min="0.01" step="0.01"></label>
+                <label class="field"><span>Stake type</span><select name="stakeType"><option value="">Select Stake Type</option><option value="Cash">Cash</option><option value="Normal Bonus">Normal Bonus</option><option value="Free Bet">Free Bet</option></select></label>
+                <label class="field"><span>Status</span><input name="status" type="text" value="Draft" readonly></label>
+                <label class="field full"><span>Notes</span><textarea name="notes" rows="2"></textarea></label>
+              </div>
+              <div id="calculatorCellValidation" class="inline-validation" aria-live="polite"></div>
+              <div class="drawer-actions">
+                <button class="secondary-button" type="button" data-cell-action="clear">Clear</button>
+                <button class="secondary-button" type="button" data-cell-action="cancel">Cancel</button>
+                <button class="secondary-button" type="submit" data-cell-action="apply">Apply Draft</button>
+                <button class="primary-button" type="button" data-cell-action="lock">Lock Allocation</button>
+                <button class="primary-button" type="button" data-cell-action="execute">Mark Executed</button>
+              </div>
+            </form>
+          </dialog>
+
+          <dialog id="calculatorAllocationDetailsDialog" class="calculator-drawer" aria-labelledby="allocationDetailsTitle">
+            <div class="drawer-head"><h2 id="allocationDetailsTitle">Allocation Details</h2><button class="icon-button" type="button" data-close-calculator-dialog aria-label="Close Allocation Details">&times;</button></div>
+            <div id="calculatorAllocationDetailsBody"></div>
+          </dialog>
+        </div>
+      </section>
+
+      <section id="payments" class="view">
+        <div class="split-grid">
+          <form id="paymentForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Shareholder Payment</h2>
+              <span>Admin workflow</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Shareholder / Client</span><select name="shareholderId" required></select></label>
+              <label><span>Amount</span><input name="amount" type="number" min="0" step="0.01" required></label>
+              <label><span>Status</span><select name="status"><option>Pending</option><option>Processing</option><option>Completed</option><option>Failed</option></select></label>
+              <label><span>Reference</span><input name="reference" type="text" placeholder="Transaction reference"></label>
+              <label><span>Payment Date</span><input name="paymentDate" type="date"></label>
+              <label class="full"><span>Notes</span><input name="note" type="text" placeholder="Payment note"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Payment
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Payment Summary</h2>
+              <span id="paymentSummaryMeta">0 payments</span>
+            </div>
+            <div id="paymentSummary" class="mini-list"></div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Payment Queue</h2>
+            <span id="paymentCount">0 rows</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Shareholder</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Reference</th>
+                  <th>Payment Date</th>
+                  <th>Notes</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="paymentBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="ledger" class="view">
+        <div class="entry-grid">
+          <form id="transferForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>New Movement</h2>
+              <span>Internal and platform routes</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Movement Type</span><select name="movementType"><option>Internal Transfer</option><option>Platform Funding</option><option>Platform Withdrawal</option></select></label>
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required></select></label>
+              <label><span>Platform Account</span><select name="platformAccountId"></select></label>
+              <label><span>Source Wallet / Bank</span><select name="from" required></select></label>
+              <label><span>Destination Wallet / Bank</span><select name="to"></select></label>
+              <label><span>Counterparty</span><input name="counterparty" type="text" placeholder="Partner or user"></label>
+              <label><span>Amount</span><input name="amount" type="number" min="0" step="0.01" required></label>
+              <label><span>Fee</span><input name="fee" type="number" min="0" step="0.01" value="0"></label>
+              <label class="full"><span>Route Code</span><input name="routeCode" type="text" readonly></label>
+              <label class="full"><span>Note</span><input name="note" type="text" placeholder="Settlement reference"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Movement
+            </button>
+          </form>
+
+          <form id="incomeForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>New Income</h2>
+              <span>Daily site result</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required></select></label>
+              <label><span>Website</span><select name="site" required></select></label>
+              <label><span>Received In</span><select name="accountId" required></select></label>
+              <label><span>Bet</span><input name="bet" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Site</span><input name="siteAmount" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Benefit</span><input name="benefit" type="number" step="0.01" required></label>
+              <label class="full"><span>Route Code</span><input name="routeCode" type="text" readonly></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Income
+            </button>
+          </form>
+
+          <form id="costForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>New Cost</h2>
+              <span>Expense and fees</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required></select></label>
+              <label><span>Platform</span><select name="platformId" required></select></label>
+              <label><span>Owner</span><input name="owner" type="text" placeholder="Admin, shareholder, or department" required></label>
+              <label><span>Paid From</span><select name="accountId" data-default="acc-cost-wallet" required></select></label>
+              <label><span>Category</span><input name="category" type="text" value="Operations"></label>
+              <label><span>Amount</span><input name="amount" type="number" min="0" step="0.01" required></label>
+              <label><span>Description</span><input name="description" type="text"></label>
+              <label class="full"><span>Route Code</span><input name="routeCode" type="text" readonly></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Cost
+            </button>
+          </form>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Wallet Ledger</h2>
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"></path></svg>
+              <input id="ledgerSearch" type="search" placeholder="Search ledger">
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Account</th>
+                  <th>Route</th>
+                  <th>Counterparty</th>
+                  <th>Amount</th>
+                  <th>Note</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="ledgerBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="portfolios" class="view">
+        <div class="portfolio-toolbar panel">
+          <label><span>Client</span><select id="portfolioClientFilter"><option value="">All Clients</option></select></label>
+          <div id="portfolioMetrics" class="portfolio-metrics"></div>
+        </div>
+        <div class="entry-grid">
+          <form id="exchangeForm" class="panel form-panel">
+            <div class="panel-head"><h2>Bank Exchange</h2><span>Bank to wallet conversion</span></div>
+            <div class="form-grid">
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required disabled></select></label>
+              <label><span>Source Bank</span><select name="sourceBankId" required disabled></select></label>
+              <label><span>Destination Wallet</span><select name="destinationWalletId" required disabled></select></label>
+              <label><span>Source Amount</span><input name="sourceAmount" type="number" min="0.01" step="0.01" required></label>
+              <label><span>Exchange Rate</span><input name="exchangeRate" type="number" min="0.000001" step="0.000001" required></label>
+              <label><span>Fee Percentage</span><input name="feePercentage" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Fixed Fee</span><input name="fixedFee" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Exchange Date</span><input name="date" type="date" required></label>
+              <label><span>Reference</span><input name="reference" type="text"></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text"></label>
+            </div>
+            <div id="exchangePreview" class="balance-preview"></div>
+            <button class="primary-button" type="submit">Confirm Exchange</button>
+          </form>
+          <form id="contributionForm" class="panel form-panel" data-owner-only>
+            <div class="panel-head"><h2>Additional Capital Contribution</h2><span>Capital, never profit</span></div>
+            <div class="form-grid">
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>Amount</span><input name="amount" type="number" min="0.01" step="0.01" required></label>
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Currency</span><input name="currency" value="USD" required></label>
+              <label><span>Funding Source</span><input name="fundingSource" required></label>
+              <label><span>Notes</span><input name="notes"></label>
+            </div>
+            <button class="primary-button" type="submit">Record Contribution</button>
+          </form>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><h2>Owner Approval Queue</h2><span id="approvalCount">0 requests</span></div>
+          <div id="approvalQueue" class="approval-list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Money Movement Timeline</h2><span>Ledger-backed placements</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>User</th><th>Movement</th><th>Previous Location</th><th>Current Location</th><th>Amount</th><th>Status</th><th>Reference</th></tr></thead><tbody id="placementBody"></tbody></table></div>
+        </section>
+      </section>
+
+      <section id="shareholders" class="view">
+        <div class="split-grid">
+          <form id="shareholderForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Investor Client</h2>
+              <span>Committed client capital</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>Initial Invested Amount</span><input name="investment" type="number" min="0" step="0.01" required></label>
+              <label><span>Profit Share Percentage</span><input name="profitSharePercentage" type="number" min="0" max="100" step="0.01" required></label>
+              <label><span>Investment Date</span><input name="investmentDate" type="date" required></label>
+              <label><span>Currency</span><input name="currency" type="text" value="USD" maxlength="10" required></label>
+              <label><span>Status</span><select name="status"><option>Active</option><option>Paused</option></select></label>
+              <label><span>Note</span><input name="note" type="text" placeholder="Investment note"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Investor
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Profit Dashboard</h2>
+              <span id="shareTotal">$0.00 capital</span>
+            </div>
+            <div class="table-wrap shareholder-table-wrap">
+              <table class="shareholder-table">
+                <thead>
+                  <tr>
+                    <th>Client / Shareholder</th>
+                    <th>Investment</th>
+                    <th>Profit Share %</th>
+                    <th>Capital Allocated</th>
+                    <th>Capital Remaining</th>
+                    <th>Current Capital</th>
+                    <th>Realized Profit/Loss</th>
+                    <th>Payable Profit</th>
+                    <th>Pending Withdrawals</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="shareholderTableBody"></tbody>
+              </table>
+            </div>
+            <div id="shareholderCards" class="shareholder-grid mobile-shareholder-grid"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="profitLoss" class="view">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Shareholder Profit/Loss</h2>
+            <span id="profitLossMeta">0 records</span>
+          </div>
+          <div id="profitLossCards" class="profit-grid"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Monthly History</h2>
+            <span id="monthlyHistoryMeta">0 months</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Shareholder</th>
+                  <th>Capital</th>
+                  <th>Capital %</th>
+                  <th>Gross Profit</th>
+                  <th>Payable</th>
+                  <th>Retained</th>
+                  <th>Withdrawals</th>
+                  <th>Unpaid</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyHistoryBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="parties" class="view">
+        <div class="split-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Certified Account Holders</h2>
+              <span id="partyCount">0 records</span>
+            </div>
+            <div class="tree-list" id="clientTree"></div>
+          </section>
+          <div class="stack">
+            <form id="clientForm" class="panel form-panel">
+              <div class="panel-head">
+                <h2>Client</h2>
+                <span>Parent branch</span>
+              </div>
+              <div class="form-grid">
+                <label><span>Name</span><input name="name" type="text" required></label>
+                <label><span>Code</span><input name="code" type="text" placeholder="CLT"></label>
+              </div>
+              <button class="primary-button" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                Add Client
+              </button>
+            </form>
+            <form id="userForm" class="panel form-panel">
+              <div class="panel-head">
+                <h2>User</h2>
+                <span>Capital allocation</span>
+              </div>
+              <div class="form-grid">
+                <label><span>Client</span><select name="clientId" required></select></label>
+                <label><span>Name</span><input name="name" type="text" required></label>
+                <label><span>Code</span><input name="code" type="text" placeholder="USR"></label>
+                <label><span>Allocated Capital</span><input name="allocatedCapital" type="number" min="0" step="0.01" value="0" required></label>
+                <label><span>Wallet Opening Amount</span><input name="walletOpening" type="number" min="0" step="0.01" value="0" required></label>
+                <label><span>Bank Opening Amount</span><input name="bankOpening" type="number" min="0" step="0.01" value="0" required></label>
+                <label><span>Status</span><select name="status"><option>Active</option><option>Paused</option></select></label>
+                <label class="full"><span>Note</span><input name="note" type="text" placeholder="User capital note"></label>
+              </div>
+              <div id="userAllocationSummary" class="inline-summary"></div>
+              <button class="primary-button" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                Add User
+              </button>
+            </form>
+            <form id="websiteForm" class="panel form-panel">
+              <div class="panel-head">
+                <h2>Platform</h2>
+                <span>Cooperated with</span>
+              </div>
+              <div class="form-grid">
+                <label><span>Name</span><input name="name" type="text" required></label>
+                <label><span>Type</span><select name="type"><option>Website</option><option>Partner</option><option>Profile</option><option>Identity</option></select></label>
+              </div>
+              <button class="primary-button" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                Add Party
+              </button>
+            </form>
+            <form id="platformAccountForm" class="panel form-panel">
+              <div class="panel-head">
+                <h2>Platform Account</h2>
+                <span>User branch</span>
+              </div>
+              <div class="form-grid">
+                <label><span>Client</span><select name="clientId" required></select></label>
+                <label><span>User</span><select name="userId" required></select></label>
+                <label><span>Platform</span><select name="platformId" required></select></label>
+                <label><span>Username</span><input name="username" type="text" required></label>
+                <label><span>Account Code</span><input name="accountCode" type="text" placeholder="PLATFORM-USER"></label>
+                <label><span>Status</span><select name="status"><option>Active</option><option>Paused</option></select></label>
+                <label><span>Cash Balance</span><input name="cashBalance" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Bonus Balance</span><input name="bonusBalance" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Free Bet Balance</span><input name="freeBetBalance" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Bonus Type</span><input name="bonusType" type="text" placeholder="Free bet, cash, reload"></label>
+                <label><span>Bonus Expiry</span><input name="bonusExpiry" type="date"></label>
+                <label><span>Funding Amount</span><input name="fundingAmount" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Bonus Amount</span><input name="bonusAmount" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Turnover Override %</span><input name="turnoverPercentageOverride" type="number" min="0" max="1000" step="0.01" placeholder="Platform default"></label>
+                <label><span>Completed Turnover</span><input name="completedTurnover" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Custom Eligible Amount</span><input name="customEligibleAmount" type="number" min="0" step="0.01" value="0"></label>
+              </div>
+              <div id="platformTurnoverPreview" class="inline-summary"></div>
+              <button class="primary-button" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                Add Platform Account
+              </button>
+            </form>
+            <form id="accountForm" class="panel form-panel">
+              <div class="panel-head">
+                <h2>User Account</h2>
+                <span>Wallet or bank only</span>
+              </div>
+              <div class="form-grid">
+                <label><span>Client</span><select name="clientId" required></select></label>
+                <label><span>User</span><select name="userId" required></select></label>
+                <label><span>Name</span><input name="name" type="text" required></label>
+                <label><span>Type</span><select name="type"><option>Wallet</option><option>Bank</option></select></label>
+                <label><span>Owner</span><input name="owner" type="text" value="Company"></label>
+                <label><span>Opening</span><input name="opening" type="number" step="0.01" value="0"></label>
+                <label><span>Reserved Balance</span><input name="reservedBalance" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Safety Margin</span><input name="safetyMargin" type="number" min="0" step="0.01" value="0"></label>
+                <label><span>Currency</span><input name="currency" type="text" value="USD"></label>
+              </div>
+              <button class="primary-button" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                Add Account
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Accounts</h2>
+            <span id="accountCount">0 wallets</span>
+          </div>
+          <div class="account-grid" id="accountGrid"></div>
+        </section>
+      </section>
+
+      <section id="settings" class="view">
+        <div class="split-grid">
+          <form id="accessUserForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Access User</h2>
+              <span>Owner only</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Display Name</span><input name="name" type="text" required></label>
+              <label><span>Username</span><input name="username" type="text" required></label>
+              <label><span>Password</span><input name="password" type="text" required></label>
+              <label><span>Role</span><select name="role"><option value="owner">Owner</option><option value="admin">Admin</option><option value="shareholder">Shareholder / Client</option></select></label>
+              <label class="full"><span>Linked Client</span><select name="clientId"></select></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Access User
+            </button>
+          </form>
+          <form id="adminAssignmentForm" class="panel form-panel" data-owner-only>
+            <div class="panel-head">
+              <h2>Assigned Clients</h2>
+              <span>Owner only</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Admin</span><select name="authUserId" required></select></label>
+              <label><span>Client</span><select name="clientId" required></select></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Assign Client
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Role Directory</h2>
+              <span id="accessUserCount">0 users</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>Username</th><th>Role</th><th>Linked Client</th><th></th></tr>
+                </thead>
+                <tbody id="accessUserBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+        <section class="panel" data-owner-only>
+          <div class="panel-head">
+            <h2>Admin Client Map</h2>
+            <span id="adminAssignmentCount">0 assignments</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Admin</th><th>Client</th><th></th></tr>
+              </thead>
+              <tbody id="adminAssignmentBody"></tbody>
+            </table>
+          </div>
+        </section>
+        <div class="split-grid" data-owner-only>
+          <form id="platformRuleForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Platform Rules</h2>
+              <span>Owner configuration</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Platform</span><select name="platformId" required></select></label>
+              <label><span>Platform Status</span><select name="platformStatus"><option>Active</option><option>Paused</option><option>Disabled</option><option>Manual Review</option></select></label>
+              <label><span>Default Currency</span><input name="defaultCurrency" type="text" value="USD" maxlength="10" required></label>
+              <label><span>Turnover Requirement %</span><input name="turnoverPercentage" type="number" min="0" max="1000" step="0.01" value="100" required></label>
+              <label><span>Turnover Method</span><select name="turnoverMethod"><option>Deposit only</option><option>Bonus only</option><option>Deposit plus bonus</option><option>Custom eligible amount</option></select></label>
+              <label><span>Minimum Eligible Odds</span><input name="minEligibleOdds" type="number" min="1" step="0.01" value="1.50" required></label>
+              <label><span>Maximum Eligible Odds</span><input name="maxEligibleOdds" type="number" min="1" step="0.01" placeholder="Optional"></label>
+              <label><span>Maximum Stake</span><input name="maxStake" type="number" min="0" step="0.01" placeholder="Optional"></label>
+              <label><span>Maximum Payout</span><input name="maxPayout" type="number" min="0" step="0.01" placeholder="Optional"></label>
+              <label><span>Bonus Types Supported</span><input name="bonusTypesSupported" type="text" placeholder="Cash, Free Bet, Reload"></label>
+              <label><span>Same Account Multiple Outcomes</span><select name="sameAccountMultipleOutcomes"><option value="false">Not Allowed</option><option value="true">Allowed</option></select></label>
+              <label><span>Max Outcomes / Account / Event</span><input name="maxOutcomesPerEvent" type="number" min="1" step="1" value="1" required></label>
+              <label><span>Same Account Across Markets</span><select name="sameAccountAcrossMarkets"><option value="false">Not Allowed</option><option value="true">Allowed</option></select></label>
+              <label><span>Multiple Accounts One Outcome</span><select name="multipleAccountsOneOutcome"><option value="false">Not Allowed</option><option value="true">Allowed</option></select></label>
+              <label><span>Two of Three Outcomes</span><select name="twoOfThreeOutcomesAllowed"><option>Not Allowed</option><option>Allowed</option><option>Manual Review Required</option></select></label>
+              <label><span>Manual Approval Required</span><select name="manualApprovalRequired"><option value="false">No</option><option value="true">Yes</option></select></label>
+              <label><span>Effective Date</span><input name="effectiveDate" type="date" required></label>
+              <label><span>Last Reviewed Date</span><input name="lastReviewedDate" type="date"></label>
+              <label class="full"><span>Change Reason</span><input name="changeReason" type="text" required></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Save Rule Profile
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Rule Profiles</h2>
+              <span id="platformRuleCount">0 profiles</span>
+            </div>
+            <div id="platformRuleCards" class="rule-card-grid"></div>
+          </section>
+        </div>
+        <section class="panel" data-owner-only>
+          <div class="panel-head">
+            <h2>Rule Version History</h2>
+            <span id="platformRuleVersionCount">0 versions</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Platform</th><th>Effective</th><th>Turnover</th><th>Method</th><th>Created By</th><th>Reason</th></tr>
+              </thead>
+              <tbody id="platformRuleVersionBody"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel settings-panel">
+          <div class="panel-head">
+            <h2>Source Model</h2>
+            <span>Prototype</span>
+          </div>
+          <dl class="rules">
+            <div><dt>Benefit</dt><dd>Daily site benefit entered by you.</dd></div>
+            <div><dt>Costs</dt><dd>Operational expenses and transfer fees reduce net income.</dd></div>
+            <div><dt>Transfers</dt><dd>Wallet movement changes balances but does not change profit unless a fee is recorded.</dd></div>
+            <div><dt>Investor Profit</dt><dd>Profit is split by capital ratio, then multiplied by the shareholder profit-share agreement.</dd></div>
+            <div><dt>Workflow</dt><dd>Platform funding, result entry, expected withdrawals, notifications, and tasks are stored in local audit-ready records.</dd></div>
+          </dl>
+        </section>
+      </section>
+
+      <section id="appearance" class="view">
+        <div id="appearanceAccessDenied" class="panel no-access-panel" hidden>
+          <h2>No Appearance Access</h2>
+          <p>The Owner has not granted Appearance Management access to this account.</p>
+        </div>
+
+        <div id="appearanceWorkspace" class="appearance-workspace">
+          <header class="appearance-command-bar">
+            <div>
+              <p class="eyebrow">Global presentation profile</p>
+              <h2>Appearance & Branding</h2>
+              <p class="muted">Draft, validate, approve, and activate visual changes without touching financial data.</p>
+            </div>
+            <div class="action-row appearance-actions">
+              <button id="newThemeButton" class="primary-button" type="button">New Theme</button>
+              <button id="duplicateThemeButton" class="secondary-button" type="button">Duplicate</button>
+              <button id="archiveThemeButton" class="secondary-button" type="button">Archive</button>
+              <button id="deleteThemeDraftButton" class="danger-button" type="button">Delete Draft</button>
+              <button id="exportThemeButton" class="secondary-button" type="button">Export JSON</button>
+              <button id="importThemeButton" class="secondary-button" type="button">Import JSON</button>
+              <input id="importThemeFile" type="file" accept="application/json,.json" hidden>
+            </div>
+          </header>
+
+          <div id="appearanceNotice" class="appearance-notice" role="status" aria-live="polite" hidden></div>
+
+          <div class="appearance-layout">
+            <aside class="appearance-library panel">
+              <div class="panel-head">
+                <h2>Theme Profiles</h2>
+                <span id="themeLibraryCount">0 themes</span>
+              </div>
+              <div id="themeLibraryList" class="theme-library-list"></div>
+              <div class="appearance-library-actions">
+                <button id="restorePreviousThemeButton" class="secondary-button full-button" type="button">Restore Previous Theme</button>
+                <button id="restoreAtlasThemeButton" class="secondary-button full-button" type="button">Restore Atlas Default</button>
+              </div>
+            </aside>
+
+            <main class="appearance-editor">
+              <section class="panel theme-editor-panel">
+                <div class="panel-head">
+                  <div>
+                    <h2 id="themeEditorTitle">Theme Builder</h2>
+                    <span id="themeEditorStatus">Select a theme</span>
+                  </div>
+                  <div class="action-row">
+                    <button id="saveThemeVersionButton" class="secondary-button" type="button">Save New Version</button>
+                    <button id="submitThemeButton" class="secondary-button" type="button">Submit</button>
+                    <button id="activateThemeButton" class="primary-button" type="button">Activate</button>
+                  </div>
+                </div>
+                <form id="themeEditorForm">
+                  <div class="field-grid appearance-theme-meta">
+                    <label class="field"><span>Theme Name</span><input name="themeName" type="text" maxlength="80" required></label>
+                    <label class="field"><span>Change Summary</span><input name="changeSummary" type="text" maxlength="240" required></label>
+                    <label class="field full"><span>Description</span><textarea name="themeDescription" rows="2" maxlength="180"></textarea></label>
+                  </div>
+                  <div class="appearance-builder-grid">
+                    <nav class="appearance-section-nav" aria-label="Theme Builder sections">
+                      <button type="button" class="is-active" data-theme-section="general">General</button>
+                      <button type="button" data-theme-section="colors">Colors</button>
+                      <button type="button" data-theme-section="typography">Typography</button>
+                      <button type="button" data-theme-section="shape">Shape</button>
+                      <button type="button" data-theme-section="spacing">Spacing</button>
+                      <button type="button" data-theme-section="navigation">Navigation</button>
+                      <button type="button" data-theme-section="calculator">Calculator</button>
+                      <button type="button" data-theme-section="motion">Motion</button>
+                    </nav>
+                    <div id="themeTokenEditor" class="theme-token-editor"></div>
+                  </div>
+                </form>
+              </section>
+
+              <section class="panel appearance-preview-panel">
+                <div class="panel-head">
+                  <h2>Isolated Live Preview</h2>
+                  <div class="action-row">
+                    <label class="compact-control"><span>Workspace</span><select id="themePreviewWorkspace"><option value="dashboard">Dashboard</option><option value="accounting">Accounting</option><option value="calculator">Calculator</option></select></label>
+                    <label class="compact-control"><span>Size</span><select id="themePreviewSize"><option value="desktop">Desktop</option><option value="tablet">Tablet</option><option value="mobile">Mobile</option></select></label>
+                  </div>
+                </div>
+                <div id="themeLivePreview" class="theme-live-preview" data-preview-size="desktop"></div>
+              </section>
+
+              <div class="appearance-lower-grid">
+                <section class="panel">
+                  <div class="panel-head"><h2>Accessibility Validation</h2><span id="themeValidationMeta">Not checked</span></div>
+                  <div id="themeValidationList" class="theme-validation-list"></div>
+                </section>
+                <section class="panel">
+                  <div class="panel-head"><h2>Version History</h2><span id="themeVersionCount">0 versions</span></div>
+                  <div class="table-wrap">
+                    <table><thead><tr><th>Version</th><th>Status</th><th>By</th><th>Date</th><th>Summary</th><th></th></tr></thead><tbody id="themeVersionBody"></tbody></table>
+                  </div>
+                  <div id="themeVersionCompare" class="theme-version-compare" hidden></div>
+                </section>
+              </div>
+
+              <div class="appearance-lower-grid">
+                <form id="brandingForm" class="panel">
+                  <div class="panel-head"><h2>Branding</h2><span>Safe local assets only</span></div>
+                  <div class="field-grid">
+                    <label class="field"><span>Application Name</span><input name="applicationName" type="text" maxlength="100"></label>
+                    <label class="field"><span>Company Subtitle</span><input name="companySubtitle" type="text" maxlength="100"></label>
+                    <label class="field full"><span>Footer Text</span><input name="footerText" type="text" maxlength="240"></label>
+                    <label class="field full"><span>Copyright Text</span><input name="copyrightText" type="text" maxlength="100"></label>
+                    <label class="field"><span>Primary Logo</span><input data-branding-asset="primaryLogo" type="file" accept="image/png,image/webp,image/x-icon,.ico"></label>
+                    <label class="field"><span>Compact Logo</span><input data-branding-asset="compactLogo" type="file" accept="image/png,image/webp,image/x-icon,.ico"></label>
+                    <label class="field"><span>Login Logo</span><input data-branding-asset="loginLogo" type="file" accept="image/png,image/webp,image/x-icon,.ico"></label>
+                    <label class="field"><span>Login Background</span><input data-branding-asset="loginBackground" type="file" accept="image/png,image/webp"></label>
+                    <label class="field"><span>Favicon</span><input data-branding-asset="favicon" type="file" accept="image/png,image/webp,image/x-icon,.ico"></label>
+                    <div id="brandingLogoPreview" class="branding-logo-preview full"></div>
+                  </div>
+                  <button id="applyBrandingDraftButton" class="secondary-button" type="button">Apply to Draft</button>
+                </form>
+
+                <form id="personalAppearanceForm" class="panel">
+                  <div class="panel-head"><h2>Personal Preferences</h2><span>Presentation only</span></div>
+                  <div class="field-grid">
+                    <label class="field"><span>Mode</span><select name="mode"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+                    <label class="field"><span>Density</span><select name="density"><option value="compact">Compact</option><option value="standard">Standard</option><option value="comfortable">Comfortable</option></select></label>
+                    <label class="field"><span>Sidebar</span><select name="sidebarState"><option value="full">Full</option><option value="compact">Compact</option><option value="icons">Icons Only</option></select></label>
+                    <label class="checkbox-row"><input name="reducedMotion" type="checkbox"><span>Reduce motion</span></label>
+                  </div>
+                  <button class="secondary-button" type="submit">Save My Preferences</button>
+                </form>
+              </div>
+
+              <section id="appearanceOwnerControls" class="panel">
+                <div class="panel-head"><h2>Owner Permissions & Approval Policy</h2><span>Owner controlled</span></div>
+                <label class="checkbox-row appearance-policy-row"><input id="adminThemeApprovalRequired" type="checkbox" checked><span>Admin theme changes require Owner approval</span></label>
+                <label class="checkbox-row appearance-policy-row"><input id="allowPersonalAppearance" type="checkbox" checked><span>Allow personal mode, density, and Sidebar preferences</span></label>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Admin</th><th>View</th><th>Edit</th><th>Branding</th><th>Import</th><th>Export</th><th>Activate</th><th>Reset</th><th></th></tr></thead>
+                    <tbody id="appearancePermissionBody"></tbody>
+                  </table>
+                </div>
+                <div class="panel-head appearance-approval-head"><h2>Pending Theme Approvals</h2><span id="themeApprovalCount">0 pending</span></div>
+                <div id="themeApprovalList" class="theme-approval-list"></div>
+              </section>
+            </main>
+          </div>
+        </div>
+      </section>
+
+      <section id="operations" class="view">
+        <div class="split-grid">
+          <form id="platformFundingForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Platform Funding</h2>
+              <span>Deposit to platform</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Date</span><input name="date" type="date" required></label>
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required></select></label>
+              <label><span>Source Wallet / Bank</span><select name="sourceAccountId" required></select></label>
+              <label><span>Platform Account</span><select name="platformAccountId" required></select></label>
+              <label><span>Amount</span><input name="amount" type="number" min="0" step="0.01" required></label>
+              <label><span>Currency</span><input name="currency" type="text" value="USD" maxlength="10" required></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text" placeholder="Funding note"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Record Funding
+            </button>
+          </form>
+
+          <form id="platformResultForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Record Platform Result</h2>
+              <span>Expected withdrawal follows</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Client</span><select name="clientId" required></select></label>
+              <label><span>User</span><select name="userId" required></select></label>
+              <label><span>Platform Account</span><select name="platformAccountId" required></select></label>
+              <label><span>Related Funding</span><select name="fundingId" required></select></label>
+              <label><span>Original Amount Sent</span><input name="originalAmount" type="number" min="0" step="0.01" required></label>
+              <label><span>Result Date</span><input name="resultDate" type="date" required></label>
+              <label><span>Result Amount</span><input name="resultAmount" type="number" min="0" step="0.01" required></label>
+              <label><span>Expected Withdrawal Amount</span><input name="expectedWithdrawalAmount" type="number" min="0" step="0.01" required></label>
+              <label><span>Remaining Inside Platform</span><input name="remainingInsidePlatform" type="number" min="0" step="0.01" value="0" required></label>
+              <label><span>Platform Fees</span><input name="platformFees" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Expected Destination</span><select name="expectedDestinationAccountId" required></select></label>
+              <label><span>Assigned Admin</span><select name="assignedAdminId"></select></label>
+              <label><span>Reference Number</span><input name="referenceNumber" type="text"></label>
+              <label><span>Settlement Period</span><input name="settlementPeriod" type="text" placeholder="2026-07"></label>
+              <label class="full"><span>Supporting Document</span><input name="supportingDocument" type="text" placeholder="Optional document note"></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text" placeholder="Operation result note"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Record Result
+            </button>
+          </form>
+        </div>
+
+        <div class="split-grid">
+          <form id="allocationForm" class="panel form-panel" data-owner-only>
+            <div class="panel-head">
+              <h2>Account Eligibility Preview</h2>
+              <span>Owner selection</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Event</span><input name="eventName" type="text" placeholder="Team 1 vs Team 2" required></label>
+              <label><span>Event Code</span><input name="eventId" type="text" placeholder="Optional"></label>
+              <label><span>Market Type</span><select name="marketType"><option>Three Outcome</option><option>Two Outcome</option><option>Custom</option></select></label>
+              <label><span>Market</span><input name="marketName" type="text" placeholder="Match winner"></label>
+              <label><span>Outcome</span><input name="outcomeName" type="text" placeholder="Team 1 / Draw / Team 2" required></label>
+              <label><span>Platform</span><select name="platformId" required></select></label>
+              <label><span>Odds</span><input name="odds" type="number" min="1" step="0.01" required></label>
+              <label><span>Planned Stake</span><input name="stake" type="number" min="0" step="0.01" required></label>
+              <label><span>Potential Payout</span><input name="potentialPayout" type="number" min="0" step="0.01"></label>
+              <label><span>Required Turnover Use</span><input name="requiredTurnoverAllocation" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Selected Account</span><select name="platformAccountId"></select></label>
+              <label><span>Cash Amount</span><input name="cashAmount" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Bonus Amount</span><input name="bonusAmount" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Manual Review Confirmed</span><select name="ownerConfirmed"><option value="false">No</option><option value="true">Yes</option></select></label>
+              <label class="full"><span>Override Reason</span><input name="overrideReason" type="text" placeholder="Required for owner override or manual review"></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text"></label>
+            </div>
+            <div id="allocationValidationSummary" class="inline-summary"></div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Reserve Stake
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Platform Rule Validation Summary</h2>
+              <span id="eligibilityMeta">0 accounts</span>
+            </div>
+            <div id="eligibilityPreview" class="eligibility-board"></div>
+          </section>
+        </div>
+
+        <div class="split-grid">
+          <form id="settlementForm" class="panel form-panel" data-owner-only>
+            <div class="panel-head">
+              <h2>Settle Operational Session</h2>
+              <span>Executed stake controls turnover</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Session</span><select name="sessionId" required></select></label>
+              <label><span>Result</span><select name="resultStatus"><option>Pending</option><option>Won</option><option>Lost</option><option>Void</option><option>Cancelled</option></select></label>
+              <label><span>Executed Stake</span><input name="executedStake" type="number" min="0" step="0.01" required></label>
+              <label><span>Payout</span><input name="payout" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Refund</span><input name="refund" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Ending Cash Balance</span><input name="endingCashBalance" type="number" min="0" step="0.01"></label>
+              <label><span>Ending Bonus Balance</span><input name="endingBonusBalance" type="number" min="0" step="0.01"></label>
+              <label><span>Withdrawal Amount</span><input name="withdrawalAmount" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Payment Status</span><select name="paymentStatus"><option>Pending</option><option>Processing</option><option>Completed</option><option>Failed</option></select></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Save Settlement
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Calculation &amp; Rollover History</h2>
+              <span id="sessionHistoryMeta">0 sessions</span>
+            </div>
+            <div id="sessionHistory" class="session-list"></div>
+          </section>
+        </div>
+
+        <div class="split-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Funding History</h2>
+              <span id="platformFundingCount">0 rows</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Date</th><th>Client</th><th>User</th><th>Source</th><th>Platform Account</th><th>Amount</th><th>Currency</th><th>Notes</th></tr>
+                </thead>
+                <tbody id="platformFundingBody"></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Platform Results</h2>
+              <span id="platformResultCount">0 rows</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Date</th><th>Client</th><th>User</th><th>Platform Account</th><th>Original</th><th>Result</th><th>Expected Withdrawal</th><th>Remaining</th><th>Fees</th></tr>
+                </thead>
+                <tbody id="platformResultBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="withdrawals" class="view">
+        <div class="split-grid">
+          <form id="withdrawalUpdateForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Withdrawal Arrival Check</h2>
+              <span>Persistent follow-up</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Expected Withdrawal</span><select name="expectedWithdrawalId" required></select></label>
+              <label><span>Status</span><select name="status"><option>Withdrawal Requested</option><option>Processing</option><option>Partially Received</option><option>Received</option><option>Delayed</option><option>Verification Required</option><option>Payment Problem</option><option>Cancelled</option></select></label>
+              <label><span>Actual Amount Received</span><input name="actualAmountReceived" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>Actual Arrival Date</span><input name="actualArrivalDate" type="date"></label>
+              <label><span>Destination Confirmation</span><select name="destinationAccountId"></select></label>
+              <label><span>Delay Reason</span><select name="delayReason"><option value="">Select reason</option><option>Verification Required</option><option>Platform Payment Queue</option><option>High Customer Withdrawal Queue</option><option>Platform Processing Delay</option><option>Payment Method Delay</option><option>Incorrect Payment Details</option><option>Additional Review Required</option><option>Platform Limit</option><option>Unknown</option><option>Other</option></select></label>
+              <label><span>Assigned Admin</span><select name="assignedAdminId"></select></label>
+              <label class="full"><span>Notes</span><input name="notes" type="text" placeholder="Arrival or delay note"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Update Withdrawal
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Expected Withdrawal Summary</h2>
+              <span id="expectedWithdrawalSummaryMeta">0 records</span>
+            </div>
+            <div id="expectedWithdrawalSummary" class="mini-list"></div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Expected Platform Withdrawals</h2>
+            <span id="expectedWithdrawalCount">0 rows</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Client</th><th>User</th><th>Platform Account</th><th>Expected</th><th>Destination</th><th>Request Date</th><th>Waiting Days</th><th>Actual</th><th>Difference</th><th>Status</th><th>Reason</th></tr>
+              </thead>
+              <tbody id="expectedWithdrawalBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="actions" class="view">
+        <div class="split-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Notification Summary</h2>
+              <span id="notificationSummaryMeta">0 records</span>
+            </div>
+            <div id="notificationSummary" class="mini-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Audit Snapshot</h2>
+              <span id="auditSummaryMeta">0 records</span>
+            </div>
+            <div id="auditSummary" class="mini-list"></div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Notifications &amp; Action Center</h2>
+            <span id="notificationCount">0 rows</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Type</th><th>Title</th><th>Client</th><th>User</th><th>Platform</th><th>Assigned</th><th>Due</th><th>Priority</th><th>Status</th></tr>
+              </thead>
+              <tbody id="notificationBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="questions" class="view">
+        <div class="split-grid">
+          <form id="questionForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Questions &amp; Requests</h2>
+              <span>Client and admin communication</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Client</span><select name="clientId"></select></label>
+              <label><span>Category</span><select name="category"><option>Payment</option><option>Withdrawal</option><option>Investment</option><option>Profit Report</option><option>User Account</option><option>Platform Account</option><option>Technical Problem</option><option>General Question</option><option>Other</option></select></label>
+              <label><span>Priority</span><select name="priority"><option>Low</option><option selected>Normal</option><option>High</option><option>Critical</option></select></label>
+              <label><span>Status</span><select name="status"><option>Open</option><option>Under Review</option><option>Waiting for Client</option><option>Answered</option><option>Resolved</option><option>Closed</option></select></label>
+              <label class="full"><span>Subject</span><input name="subject" type="text" required></label>
+              <label class="full"><span>Message</span><input name="message" type="text" required></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Submit Thread
+            </button>
+          </form>
+          <form id="questionReplyForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Reply to Thread</h2>
+              <span>Authorized follow-up</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Thread</span><select name="questionId" required></select></label>
+              <label><span>Status</span><select name="status"><option>Open</option><option>Under Review</option><option>Waiting for Client</option><option>Answered</option><option>Resolved</option><option>Closed</option></select></label>
+              <label><span>Assigned Admin</span><select name="assignedAdminId"></select></label>
+              <label><span>Priority</span><select name="priority"><option>Low</option><option>Normal</option><option>High</option><option>Critical</option></select></label>
+              <label class="full"><span>Reply Message</span><input name="replyMessage" type="text" required></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Add Reply
+            </button>
+          </form>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Question Threads</h2>
+            <span id="questionCount">0 threads</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Subject</th><th>Message</th><th>Sender</th><th>Client</th><th>Category</th><th>Date</th><th>Status</th><th>Action</th></tr>
+              </thead>
+              <tbody id="questionBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="tasks" class="view">
+        <div class="split-grid">
+          <form id="taskForm" class="panel form-panel">
+            <div class="panel-head">
+              <h2>Admin Task</h2>
+              <span>Owner to admin</span>
+            </div>
+            <div class="form-grid">
+              <label><span>Title</span><input name="title" type="text" required></label>
+              <label><span>Assigned Admin</span><select name="assignedAdminId" required></select></label>
+              <label><span>Client</span><select name="clientId"></select></label>
+              <label><span>User</span><select name="userId"></select></label>
+              <label><span>Platform Account</span><select name="platformAccountId"></select></label>
+              <label><span>Related Withdrawal</span><select name="expectedWithdrawalId"></select></label>
+              <label><span>Priority</span><select name="priority"><option>Low</option><option selected>Normal</option><option>High</option><option>Critical</option></select></label>
+              <label><span>Start Date</span><input name="startDate" type="date" required></label>
+              <label><span>Due Date</span><input name="dueDate" type="date" required></label>
+              <label><span>Status</span><select name="status"><option>New</option><option>Accepted</option><option>In Progress</option><option>Waiting</option><option>Completed</option><option>Cancelled</option></select></label>
+              <label class="full"><span>Description</span><input name="description" type="text" required></label>
+              <label class="full"><span>Owner Notes</span><input name="ownerNotes" type="text"></label>
+              <label class="full"><span>Admin Response</span><input name="adminResponse" type="text"></label>
+            </div>
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Save Task
+            </button>
+          </form>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Task Snapshot</h2>
+              <span id="taskSummaryMeta">0 records</span>
+            </div>
+            <div id="taskSummary" class="mini-list"></div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Admin Tasks</h2>
+            <span id="taskCount">0 rows</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Title</th><th>Assigned</th><th>Client</th><th>Priority</th><th>Start</th><th>Due</th><th>Status</th><th>Response</th></tr>
+              </thead>
+              <tbody id="taskBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="noAccess" class="view">
+        <section class="panel no-access-panel">
+          <h2>No Access</h2>
+          <p>You do not have permission to view this page with the current role.</p>
+          <button id="backToDashboard" class="primary-button" type="button">Back to Dashboard</button>
+        </section>
+      </section>
+      <footer id="globalBrandFooter" class="global-brand-footer" hidden></footer>
+    </main>
+  </div>
+
+  <dialog id="conversationDialog" class="conversation-dialog">
+    <div class="dialog-head">
+      <div>
+        <h2 id="conversationTitle">Conversation</h2>
+        <p id="conversationMeta"></p>
+      </div>
+      <button id="closeConversation" class="icon-button" type="button" title="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <div id="conversationBody" class="conversation-body"></div>
+  </dialog>
+
+  <script>
+    window.__inlineScriptsEnabled = true;
+    document.documentElement.setAttribute('data-inline-scripts', 'yes');
+    window.onerror = function (message, source, line) {
+      document.documentElement.setAttribute('data-app-error', String(message) + '@' + String(line || ''));
+    };
+  </script>
+  <script src="profit-service.js?v=2"></script>
+  <script src="atlas-workflow-service.js?v=2"></script>
+  <script src="atlas-calculator-service.js?v=1"></script>
+  <script src="atlas-mix-service.js?v=1"></script>
+  <script src="atlas-calculator-view-model.js?v=3"></script>
+  <script src="atlas-xlsx-service.js?v=1"></script>
+  <script src="vendor-pdf-lib.min.js?v=1"></script>
+  <script src="atlas-pdf-service.js?v=1"></script>
+  <script src="atlas-lab-service.js?v=1"></script>
+  <script src="app.js?v=21" onload="document.documentElement.setAttribute('data-app-loaded', 'yes')" onerror="document.documentElement.setAttribute('data-app-load-error', 'yes')"></script>
+  <script src="atlas-appearance-controller.js?v=1"></script>
+  <script src="atlas-lab-controller.js?v=1"></script>
+</body>
+</html>

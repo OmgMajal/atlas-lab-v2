@@ -1,0 +1,37 @@
+# Local environment files. Keep the template tracked.
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated output.
+node_modules/
+dist/
+build/
+coverage/
+*.log
+*.tmp
+*.temp
+
+# Local editor and OS files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Browser/runtime state and private exports.
+backups/
+exports/
+*.local.json
+*.session.json
+*.credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Test and preview output.
+test-results/
+playwright-report/
+screenshots/
