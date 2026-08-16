@@ -16,11 +16,12 @@
     ['atlas_lab_explanation_layer', 'Explanation Layer', 'Clickable balance, warning, and insight explanations.'],
     ['atlas_lab_advanced_reconciliation', 'Advanced Reconciliation', 'Session, Account, Client, Wallet, and Ledger checks.'],
     ['atlas_lab_intelligence_dashboard', 'Intelligence Dashboard', 'Owner observations and attention board.'],
-    ['atlas_lab_versioned_platform_rules', 'Versioned Platform Rules', 'Immutable rules attached to historical Sessions.']
+    ['atlas_lab_versioned_platform_rules', 'Versioned Platform Rules', 'Immutable rules attached to historical Sessions.'],
+    ['atlas_odds_intelligence', 'Odds Intelligence', 'Experimental fictional odds feed simulator.']
   ];
 
   var DEFAULT_FLAGS = FEATURE_DEFINITIONS.reduce(function (out, item) {
-    out[item[0]] = true;
+    out[item[0]] = item[0] !== 'atlas_odds_intelligence';
     return out;
   }, {});
 

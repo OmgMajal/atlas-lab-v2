@@ -33,6 +33,7 @@
       ['intelligence', 'Intelligence', 'Owner attention board and observations'],
       ['admin', 'Administration', 'Feature flags, acceptance, and isolation']
     ];
+    if (feature('atlas_odds_intelligence')) tabs.push(['odds', 'Odds Intelligence', 'LAB / EXPERIMENTAL simulated feed']);
     return '<header class="lab-hero">' +
       '<div><p class="eyebrow">Isolated feature test environment</p><h1>Atlas Lab V2</h1><p>Evaluate stronger operational discipline, financial clarity, risk prevention, and Owner guidance without touching the original Atlas profile.</p></div>' +
       '<div class="lab-hero-actions"><span class="lab-test-badge">TEST ENVIRONMENT</span><button class="secondary-button" type="button" data-lab-action="open-calculator">Open Existing Calculator</button><button class="secondary-button" type="button" data-lab-action="return-atlas">Return to Atlas Dashboard</button></div>' +
@@ -124,8 +125,10 @@
     if (role() === 'guest') { mount.innerHTML = empty('Sign in to open Atlas Lab V2'); return; }
     state.warnings = service.warningSummary(state);
     state.insights = service.buildInsights(state);
-    var content = activeTab === 'finance' ? renderFinance() : (activeTab === 'risk' ? renderRisk() : (activeTab === 'intelligence' ? renderIntelligence() : (activeTab === 'admin' ? renderAdmin() : renderOperations())));
+    if (activeTab === 'odds' && !feature('atlas_odds_intelligence')) activeTab = 'operations';
+    var content = activeTab === 'finance' ? renderFinance() : (activeTab === 'risk' ? renderRisk() : (activeTab === 'intelligence' ? renderIntelligence() : (activeTab === 'admin' ? renderAdmin() : (activeTab === 'odds' ? '<div id="atlasOddsMount"></div>' : renderOperations()))));
     mount.innerHTML = labHeader() + '<main class="lab-content">' + content + '</main>';
+    if (activeTab === 'odds' && window.AtlasOddsController) window.AtlasOddsController.mount(document.getElementById('atlasOddsMount'));
     wire();
   }
 

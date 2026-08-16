@@ -3917,6 +3917,20 @@ html[data-workspace-mode="calculator"] body.is-calculator-workspace .calculator-
 .lab-topbar-badge span { font-size: 8px; font-weight: 900; letter-spacing: .08em; }
 .lab-topbar-badge strong { font-size: 11px; }
 .lab-nav-item span { color: var(--color-warning); }
+.odds-lab { display: grid; gap: 16px; }
+.odds-hero { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 16px; border: var(--border-width) solid var(--color-warning); border-radius: var(--radius-card); background: var(--color-warning-soft); }
+.odds-hero h2, .odds-hero p { margin: 0; }
+.odds-hero p { margin-top: 6px; color: var(--color-text-secondary); font-size: 12px; }
+.odds-market { margin-top: 14px; padding-top: 12px; border-top: var(--border-width) solid var(--color-border); }
+.odds-market h3, .odds-market h4 { margin: 0 0 8px; }
+.odds-price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.odds-price-grid article { padding: 10px; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-input); }
+.odds-price { display: grid; width: 100%; grid-template-columns: 1fr auto; gap: 2px 8px; margin-top: 6px; padding: 7px; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-input); color: var(--color-text-primary); background: var(--color-surface-secondary); text-align: left; }
+.odds-price small { grid-column: 1 / -1; color: var(--color-text-secondary); font-size: 9px; }
+.odds-history { display: grid; gap: 6px; margin-top: 14px; padding: 12px; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-input); }
+.odds-history h3 { margin: 0 0 4px; }.odds-history div { display: flex; justify-content: space-between; font-family: var(--font-numeric); }
+.odds-raw { max-height: 500px; overflow: auto; margin: 0; padding: 12px; border-radius: var(--radius-input); background: var(--color-surface-secondary); font-size: 11px; }
+.odds-scenario-grid { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 12px; }.odds-scenario-grid .lab-switch { width: auto; gap: 6px; }.odds-scenario-grid b { margin-left: 48px; white-space: nowrap; font-size: 10px; text-transform: capitalize; }
 
 @media (max-width: 1180px) {
   .lab-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
