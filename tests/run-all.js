@@ -14,6 +14,7 @@ var checks = [
   ['Mix and Free Bet regression', ['tests/atlas-mix-tests.js']],
   ['Appearance security regression', ['tests/atlas-theme-tests.js']],
   ['Financial domain contract regression', ['tests/atlas-domain-contract-tests.mjs']],
+  ['Odds Intelligence foundation regression', ['tests/odds-intelligence-tests.js']],
   ['Atlas acceptance regression', ['tests/atlas-acceptance-tests.mjs']]
 ];
 

@@ -13,7 +13,8 @@ assert.strictEqual(state.demo.clients.length, 2);
 assert.strictEqual(state.demo.identities.length, 6);
 assert.strictEqual(state.demo.platforms.length, 5);
 assert.strictEqual(state.demo.accounts.length, 12);
-assert.strictEqual(Object.keys(state.featureFlags).length, 10);
+assert.strictEqual(Object.keys(state.featureFlags).length, 11);
+assert.strictEqual(state.featureFlags.atlas_odds_intelligence, false);
 
 var account = state.demo.accounts[0];
 var spendable = Lab.accountSpendable(account);
