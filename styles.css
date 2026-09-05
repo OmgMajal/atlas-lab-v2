@@ -1179,6 +1179,9 @@ tr:last-child td {
   margin-top: 4px;
   color: var(--muted);
 }
+.calculator-topbar-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+.calculator-topbar-actions .save-state { min-width:90px; text-align:center; }
+.risk-text { display:block; color:var(--danger, #b42318); margin-top:4px; }
 
 .eyebrow {
   margin: 0 0 4px;

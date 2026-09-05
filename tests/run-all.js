@@ -15,6 +15,8 @@ var checks = [
   ['Appearance security regression', ['tests/atlas-theme-tests.js']],
   ['Financial domain contract regression', ['tests/atlas-domain-contract-tests.mjs']],
   ['Odds Intelligence foundation regression', ['tests/odds-intelligence-tests.js']],
+  ['Event Matching regression', ['tests/event-matching-tests.js']],
+  ['Calculator draft persistence regression', ['tests/calculator-draft-tests.js']],
   ['Atlas acceptance regression', ['tests/atlas-acceptance-tests.mjs']]
 ];
 

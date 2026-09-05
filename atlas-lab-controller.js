@@ -123,6 +123,8 @@
     if (!mount) mount = document.getElementById('atlasLabMount');
     if (!mount) return;
     if (role() === 'guest') { mount.innerHTML = empty('Sign in to open Atlas Lab V2'); return; }
+    var oddsNav = document.querySelector('.odds-nav-item');
+    if (oddsNav) oddsNav.hidden = !feature('atlas_odds_intelligence');
     state.warnings = service.warningSummary(state);
     state.insights = service.buildInsights(state);
     if (activeTab === 'odds' && !feature('atlas_odds_intelligence')) activeTab = 'operations';
@@ -158,7 +160,7 @@
     if (action === 'reset') { if (!isOwner()) return window.alert('Only Owner can reset the Lab demo.'); if (!window.confirm('Reset Atlas Lab V2 demo data? The original Atlas is unaffected.')) return; state = service.reset(); render(); }
   }
   function wire() {
-    mount.querySelectorAll('[data-lab-tab]').forEach(function (button) { button.addEventListener('click', function () { activeTab = button.getAttribute('data-lab-tab'); render(); }); });
+    mount.querySelectorAll('[data-lab-tab]').forEach(function (button) { button.addEventListener('click', function () { activeTab = button.getAttribute('data-lab-tab'); if (activeTab === 'odds' && typeof bridge().activateView === 'function') return bridge().activateView('odds'); render(); }); });
     mount.querySelectorAll('[data-lab-action]').forEach(function (button) { button.addEventListener('click', function () { handle(button.getAttribute('data-lab-action'), button); }); });
     mount.querySelectorAll('[data-lab-flag]').forEach(function (input) { input.addEventListener('change', function () { setFlag(input); }); });
     mount.querySelectorAll('[data-lab-acceptance]').forEach(function (input) { input.addEventListener('change', function () { setAcceptance(input); }); });

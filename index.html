@@ -57,9 +57,13 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h2M14 12h2M8 16h2M14 16h2"></path></svg>
           <span>Calculator Setup</span>
         </button>
-        <button class="nav-item lab-nav-item" data-view="lab" title="Atlas Lab V2">
+        <button class="nav-item lab-nav-item" data-view="lab" title="Atlas Lab V2" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-8V3M8 15h8M7 18h10"></path></svg>
           <span>Atlas Lab V2</span>
+        </button>
+        <button class="nav-item odds-nav-item" data-view="odds" title="Odds Intelligence" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16M6 15l4-5 3 3 5-7M6 6h.01M6 10h.01M6 14h.01"></path></svg>
+          <span>Odds Intelligence</span>
         </button>
         <button class="nav-item" data-view="ledger" title="Ledger">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Zm2 5h8M8 12h8M8 16h5"></path></svg>
@@ -281,6 +285,9 @@
       <section id="lab" class="view lab-view">
         <div id="atlasLabMount"></div>
       </section>
+      <section id="odds" class="view">
+        <div id="atlasOddsMainMount"></div>
+      </section>
 
       <section id="calculator" class="view calculator-workspace">
         <header class="calculator-topbar">
@@ -289,7 +296,7 @@
             <h1>Atlas Operations Calculator</h1>
             <p>Calculate first, assign accounts second, then confirm execution and settlement.</p>
           </div>
-          <button id="returnToAtlas" class="secondary-button" type="button">Return to Main Atlas</button>
+          <div class="calculator-topbar-actions"><span id="calculatorDraftHomeStatus" class="save-state">No draft</span><button id="restoreCalculatorDraft" class="secondary-button" type="button" hidden>Restore Last Draft</button><button id="startNewCalculator" class="secondary-button" type="button">Start New Calculation</button><button id="returnToAtlas" class="secondary-button" type="button">Return to Main Atlas</button></div>
         </header>
 
         <div id="calculatorHome" class="calculator-home">
@@ -346,6 +353,7 @@
             </div>
             <div class="compact-session-actions">
               <button id="compactSaveButton" class="icon-text-button" type="button" title="Save calculation">Save</button>
+              <button id="startNewCalculatorWorkbench" class="icon-text-button" type="button">Start New</button>
               <button class="icon-text-button" type="button" data-open-calculator-dialog="calculatorSessionDetailsDialog">Session Details</button>
               <button class="icon-text-button" type="button" data-open-calculator-dialog="calculatorManageAccountsDialog">Manage Accounts</button>
               <button id="addSessionEventButton" class="icon-text-button" type="button">Add Event</button>
@@ -1763,6 +1771,7 @@
   <script src="profit-service.js?v=2"></script>
   <script src="atlas-workflow-service.js?v=2"></script>
   <script src="atlas-calculator-service.js?v=1"></script>
+  <script src="atlas-calculator-draft-service.js?v=1"></script>
   <script src="atlas-mix-service.js?v=1"></script>
   <script src="atlas-calculator-view-model.js?v=3"></script>
   <script src="atlas-xlsx-service.js?v=1"></script>
@@ -1771,6 +1780,7 @@
   <script src="atlas-lab-service.js?v=1"></script>
   <script src="odds-domain.js?v=1"></script>
   <script src="odds-store.js?v=1"></script>
+  <script src="odds-event-matching.js?v=1"></script>
   <script src="odds-provider-adapter.js?v=1"></script>
   <script src="odds-simulator.js?v=1"></script>
   <script src="odds-controller.js?v=1"></script>

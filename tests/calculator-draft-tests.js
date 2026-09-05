@@ -1,0 +1,10 @@
+const assert = require('assert');
+const Drafts = require('../atlas-calculator-draft-service.js');
+const data = new Map();
+const storage = { getItem: (key) => data.get(key) || null, setItem: (key, value) => data.set(key, value) };
+const draft = Drafts.upsert(storage, { sessionDraft: { id: 'session-1', clientId: 'client-1' }, events: [{ odds: 2.1 }], calculatorDraft: { totalCapital: 100 }, assignments: { home: [{ locked: true, stake: 10 }] }, uiState: { view: 'results', density: 'compact' }, calculationSnapshot: { totalStake: 10 } });
+assert.equal(Drafts.loadActive(storage).inputs.calculatorDraft.totalCapital, 100);
+assert.equal(Drafts.loadActive(storage).inputs.assignments.home[0].locked, true);
+assert.equal(Drafts.loadActive(storage).uiState.view, 'results');
+Drafts.clear(storage); assert.equal(Drafts.loadActive(storage), null);
+console.log('Calculator draft persistence tests passed.');

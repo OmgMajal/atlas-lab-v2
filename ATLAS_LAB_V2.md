@@ -21,6 +21,7 @@ The Lab uses its own localStorage namespaces and application profile:
 - Theme namespace: `atlas-lab-v2-theme-v1`
 - Session namespace: `atlas-lab-v2-session-v1`
 - Calculator layout namespace: `atlas-lab-v2-calculator-layout-v1`
+- Calculator draft namespace: `atlas-calculator-drafts-v1` (local autosave; saved Sessions remain in the Atlas state)
 - Logical database: `atlas_lab_v2`
 - Files: `atlas-lab-v2/files`
 - Exports: `atlas-lab-v2/exports`

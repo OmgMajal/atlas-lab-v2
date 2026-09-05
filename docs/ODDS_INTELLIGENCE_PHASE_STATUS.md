@@ -3,7 +3,7 @@
 - Phase 0 — COMPLETE (baseline and protection tests pass)
 - Phase 1 — COMPLETE (domain, adapter contract, validation, isolated store)
 - Phase 2 — COMPLETE (fictional simulator, history, health, UI, scenarios)
-- Phase 3 — NOT STARTED (Event Matching)
+- Phase 3 — INCOMPLETE (conservative fictional Event Matching engine, simulator challenge fixtures, store history, and review UI implemented; full browser acceptance remains)
 - Phase 4 — NOT STARTED (Market Normalization)
 - Phase 5 — NOT STARTED (Best Odds)
 - Phase 6 — NOT STARTED (Opportunity Scanner)

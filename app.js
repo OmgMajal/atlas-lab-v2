@@ -2,6 +2,10 @@
   var STORAGE_KEY = 'atlas-lab-v2-atlas-state-v1';
   var SESSION_KEY = 'atlas-lab-v2-session-v1';
   var CALCULATOR_LAYOUT_KEY = 'atlas-lab-v2-calculator-layout-v1';
+  var calculatorDraftStorage = typeof localStorage !== 'undefined' ? localStorage : null;
+  var calculatorDraftSaveTimer = null;
+  var calculatorDraftRecovered = false;
+  var suppressCalculatorDraftSave = false;
 
   var seedState = {
     clients: [],
@@ -67,10 +71,52 @@
   var calculatorCellContext = null;
   var calculatorDialogReturnFocus = null;
 
+  function calculatorDraftSnapshot(reason) {
+    return { sessionDraft: clone(calculatorSessionDraft), events: clone(calculatorSessionEvents), calculatorDraft: clone(calculatorDraft), assignments: clone(calculatorAssignments), calculationSnapshot: clone(calculatorResult), uiState: clone(calculatorLayout), saveReason: reason || 'autosave', editedBy: currentUser ? (currentUser.name || currentUser.username) : 'local profile' };
+  }
+
+  function calculatorDraftStatus(status) {
+    setText('compactSaveState', status); setText('calculatorDraftHomeStatus', status);
+  }
+
+  function saveCalculatorDraftNow(reason) {
+    if (!window.AtlasCalculatorDraftService || !calculatorDraftStorage) return;
+    try { window.AtlasCalculatorDraftService.upsert(calculatorDraftStorage, calculatorDraftSnapshot(reason)); calculatorDraftRecovered = false; calculatorDraftStatus('Saved'); } catch (error) { calculatorDraftStatus('Save failed'); console.warn(error); }
+  }
+
+  function scheduleCalculatorDraftSave(reason) {
+    calculatorDraftStatus('Saving...');
+    if (calculatorDraftSaveTimer) clearTimeout(calculatorDraftSaveTimer);
+    calculatorDraftSaveTimer = setTimeout(function () { saveCalculatorDraftNow(reason || 'debounced change'); }, 500);
+  }
+
+  function restoreCalculatorDraft() {
+    if (!window.AtlasCalculatorDraftService || !calculatorDraftStorage) return false;
+    try {
+      var draft = window.AtlasCalculatorDraftService.loadActive(calculatorDraftStorage);
+      if (!draft) return false;
+      calculatorSessionDraft = clone(draft.inputs.sessionDraft || calculatorSessionDraft);
+      calculatorSessionEvents = clone(draft.inputs.events || []);
+      calculatorDraft = clone(draft.inputs.calculatorDraft || calculatorDraft);
+      calculatorAssignments = clone(draft.inputs.assignments || {});
+      calculatorResult = clone(draft.calculationSnapshot || null);
+      if (draft.uiState) calculatorLayout = Object.assign(defaultCalculatorLayout(), draft.uiState);
+      calculatorDraftRecovered = true; calculatorDraftStatus('Recovered draft');
+      return true;
+    } catch (error) { calculatorDraftStatus('Save failed'); console.warn(error); return false; }
+  }
+
+  function startNewCalculatorCalculation() {
+    if (!window.confirm('This will clear the current Calculator draft from this device. Saved Sessions will not be deleted.')) return;
+    if (window.AtlasCalculatorDraftService && calculatorDraftStorage) window.AtlasCalculatorDraftService.clear(calculatorDraftStorage);
+    calculatorDraftRecovered = false; calculatorSessionDraft = createCalculatorSessionDraft(); calculatorSessionEvents = []; activeCalculatorEventId = ''; calculatorDraft = createCalculatorDraft('Three Outcome'); calculatorResult = null; calculatorAssignments = {}; currentMixDraft = null; calculatorDraftStatus('No draft'); suppressCalculatorDraftSave = true; closeCalculatorWorkbench(); suppressCalculatorDraftSave = false; renderCalculator();
+  }
+
   var viewMeta = {
     dashboard: { title: 'Owner Dashboard', subtitle: 'Capital, payments, profit/loss, and operational reporting.' },
     calculator: { title: 'Calculator Setup', subtitle: 'Plan stakes, compare event scenarios, then send outcomes to rule-checked account allocation.' },
     lab: { title: 'Atlas Lab V2', subtitle: 'Isolated operations, finance, risk, intelligence, and acceptance testing.' },
+    odds: { title: 'Odds Intelligence', subtitle: 'Experimental simulator, feed health, events, and matching review.' },
     ledger: { title: 'Financial Ledger', subtitle: 'Income, costs, internal transfers, and platform-linked movements.' },
     portfolios: { title: 'Portfolios', subtitle: 'Client-scoped capital locations, approvals, and money movement history.' },
     operations: { title: 'Platform Operations', subtitle: 'Platform funding, result entry, and profitability workflow.' },
@@ -91,6 +137,7 @@
     dashboard: ['owner', 'admin', 'shareholder'],
     calculator: ['owner'],
     lab: ['owner', 'admin'],
+    odds: ['owner', 'admin'],
     ledger: ['owner', 'admin', 'shareholder'],
     portfolios: ['owner', 'admin', 'shareholder'],
     operations: ['owner', 'admin'],
@@ -448,6 +495,10 @@
     var roles = viewRoles[viewId] || [];
     if (viewId === 'appearance') {
       return !!(window.AtlasThemeService && window.AtlasThemeService.can(state, currentUser, 'canView'));
+    }
+    if (viewId === 'odds') {
+      var labState = window.AtlasLabService && window.AtlasLabService.load ? window.AtlasLabService.load() : null;
+      return roles.indexOf(currentRole()) !== -1 && !!(labState && window.AtlasLabService.featureEnabled(labState, 'atlas_odds_intelligence'));
     }
     return roles.indexOf(currentRole()) !== -1;
   }
@@ -1292,6 +1343,7 @@
   }
 
   function activateView(viewId) {
+    if (activeViewId() === 'calculator' && viewId !== 'calculator') saveCalculatorDraftNow('before section change');
     if (viewId !== 'noAccess' && !canView(viewId)) {
       viewId = 'noAccess';
     }
@@ -1305,6 +1357,7 @@
       view.classList.toggle('active', view.id === viewId);
     });
     updatePageMeta(viewId);
+    if (viewId === 'odds' && window.AtlasOddsController) window.AtlasOddsController.mount(document.getElementById('atlasOddsMainMount'));
   }
 
   function updatePageMeta(viewId) {
@@ -1573,6 +1626,7 @@
     if (!canView(activeViewId())) activateView(defaultViewForRole());
     renderKpis();
     renderCalculator();
+    if (activeViewId() === 'odds' && window.AtlasOddsController) window.AtlasOddsController.mount(document.getElementById('atlasOddsMainMount'));
     renderOperationalSummary();
     renderChart();
     renderDailyTable();
@@ -2205,23 +2259,28 @@
   }
 
   function openCalculatorWorkbench(marketType, mode) {
-    calculatorSessionDraft = createCalculatorSessionDraft();
-    calculatorSessionEvents = [];
-    activeCalculatorEventId = uid('evt');
-    calculatorDraft = createCalculatorDraft(marketType || 'Three Outcome');
-    calculatorDraft.mode = mode || calculatorDraft.mode;
-    calculatorDraft.marketType = marketType || calculatorDraft.marketType;
-    calculatorResult = null;
-    calculatorAssignments = {};
+    var restored = calculatorDraftRecovered || restoreCalculatorDraft();
+    if (!restored) {
+      calculatorSessionDraft = createCalculatorSessionDraft();
+      calculatorSessionEvents = [];
+      activeCalculatorEventId = uid('evt');
+      calculatorDraft = createCalculatorDraft(marketType || 'Three Outcome');
+      calculatorDraft.mode = mode || calculatorDraft.mode;
+      calculatorDraft.marketType = marketType || calculatorDraft.marketType;
+      calculatorResult = null;
+      calculatorAssignments = {};
+    }
     var home = document.getElementById('calculatorHome');
     var workbench = document.getElementById('calculatorWorkbench');
     if (home) home.hidden = true;
     if (workbench) workbench.hidden = false;
     document.body.classList.add('calculator-has-workbench');
     renderCalculator();
+    calculatorDraftStatus(calculatorDraftRecovered ? 'Recovered draft' : 'Unsaved changes');
   }
 
   function closeCalculatorWorkbench() {
+    if (!suppressCalculatorDraftSave) saveCalculatorDraftNow('before leaving calculator');
     var home = document.getElementById('calculatorHome');
     var workbench = document.getElementById('calculatorWorkbench');
     if (home) home.hidden = false;
@@ -2680,6 +2739,11 @@
   function renderCalculator() {
     var outcomeBody = document.getElementById('calculatorOutcomeBody');
     if (!outcomeBody) return;
+    if (window.AtlasCalculatorDraftService && calculatorDraftStorage) {
+      calculatorDraftStatus(calculatorDraftRecovered ? 'Recovered draft' : (window.AtlasCalculatorDraftService.loadActive(calculatorDraftStorage) ? 'Saved' : 'No draft'));
+      var restoreButton = document.getElementById('restoreCalculatorDraft');
+      if (restoreButton) restoreButton.hidden = !window.AtlasCalculatorDraftService.loadActive(calculatorDraftStorage);
+    }
     syncCalculatorSessionFormFromDraft();
     syncCalculatorFormFromDraft();
     updateCalculatorSegments();
@@ -3623,6 +3687,7 @@
     calculatorLayout.view = ['allocation', 'balancing', 'turnover', 'results'].indexOf(view) !== -1 ? view : 'allocation';
     saveCalculatorLayout();
     renderCompactCalculator();
+    scheduleCalculatorDraftSave('calculator tab change');
   }
 
   function navigateCompactWarning(index) {
@@ -7281,6 +7346,7 @@
       }
       if (event.target.closest('#calculatorSetupForm')) {
         updateCalculatorDraftFromForm();
+        scheduleCalculatorDraftSave('calculator input');
       }
       if (event.target.getAttribute('data-outcome-field')) {
         updateCalculatorOutcomeFromInput(event.target);
@@ -7290,9 +7356,11 @@
         renderManualCoverageBoard();
         renderStakePlacementPrompt();
         renderOperationPlan();
+        scheduleCalculatorDraftSave('odds or outcome change');
       }
       if (event.target.getAttribute('data-assignment-field')) {
         updateCalculatorAssignmentFromInput(event.target);
+        scheduleCalculatorDraftSave('stake or account change');
       }
       if (event.target.closest('form')) {
         renderUserAllocationSummary();
@@ -7301,6 +7369,7 @@
         renderExchangePreview();
         updateRoutePreviews();
       }
+      if (event.target.closest('#calculatorWorkbench')) scheduleCalculatorDraftSave('calculator field change');
     });
 
     document.addEventListener('change', function (event) {
@@ -7308,24 +7377,28 @@
         calculatorLayout.density = event.target.value;
         saveCalculatorLayout();
         renderCompactCalculator();
+        scheduleCalculatorDraftSave('density change');
         return;
       }
       if (event.target.id === 'calculatorFixedColumnWidth') {
         calculatorLayout.fixedColumnWidth = Math.max(190, Math.min(360, num(event.target.value)));
         saveCalculatorLayout();
         renderCompactCalculator();
+        scheduleCalculatorDraftSave('layout change');
         return;
       }
       if (event.target.id === 'calculatorEventColumnWidth') {
         calculatorLayout.eventColumnWidth = Math.max(140, Math.min(280, num(event.target.value)));
         saveCalculatorLayout();
         renderCompactCalculator();
+        scheduleCalculatorDraftSave('layout change');
         return;
       }
       if (event.target.id === 'calculatorAccountFilter') {
         calculatorLayout.accountFilter = event.target.value;
         saveCalculatorLayout();
         renderCompactCalculator();
+        scheduleCalculatorDraftSave('filter change');
         return;
       }
       if (event.target.id === 'calculatorMobileAccount') {
@@ -7340,6 +7413,7 @@
         renderCalculatorMobileWorkspace(compactCalculatorModel || buildCompactCalculatorModel());
         return;
       }
+      if (event.target.closest('#calculatorWorkbench')) scheduleCalculatorDraftSave('calculator selection change');
       if (event.target.closest('#calculatorSetupForm') && event.target.name === 'marketType') {
         updateCalculatorDraftFromForm();
         calculatorDraft.outcomes = window.AtlasCalculatorService.makeOutcomeDefaults(calculatorDraft.marketType);
@@ -7647,6 +7721,9 @@
     });
 
     document.getElementById('backToCalculatorHome').addEventListener('click', closeCalculatorWorkbench);
+    document.getElementById('startNewCalculator').addEventListener('click', startNewCalculatorCalculation);
+    document.getElementById('startNewCalculatorWorkbench').addEventListener('click', startNewCalculatorCalculation);
+    document.getElementById('restoreCalculatorDraft').addEventListener('click', function () { if (restoreCalculatorDraft()) { openCalculatorWorkbench(calculatorDraft.marketType, calculatorDraft.mode); } });
 
     document.getElementById('compactSaveButton').addEventListener('click', function () {
       document.getElementById('saveCalculatorSession').click();
@@ -7789,5 +7866,7 @@
 
   wireChrome();
   wireForms();
+  restoreCalculatorDraft();
+  window.addEventListener('beforeunload', function () { saveCalculatorDraftNow('before page close'); });
   render();
 })();
