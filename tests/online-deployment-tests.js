@@ -17,4 +17,5 @@ assert(read('index.html').indexOf('manifest.webmanifest') !== -1);
 assert(read('index.html').indexOf('deploymentBanner') !== -1);
 assert(read('index.html').indexOf('mobile-bottom-nav') !== -1);
 assert(read('atlas-deployment.js').indexOf('Public Demo — Fictional Data Only') !== -1);
+assert(read('atlas-deployment.js').indexOf('atlas-lab-v2-demo.pages.dev') !== -1);
 console.log('Online deployment and PWA checks passed.');

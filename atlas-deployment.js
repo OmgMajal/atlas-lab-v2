@@ -1,7 +1,8 @@
 (function (root) {
   'use strict';
   var host = String((root.location && root.location.hostname) || '');
-  var mode = host === '127.0.0.1' || host === 'localhost' ? 'local' : (host.indexOf('staging-atlas.') === 0 ? 'staging' : (host.indexOf('atlas-demo.') === 0 ? 'public-demo' : 'prototype'));
+  var isAtlasPublicDemoHost = host === 'atlas-lab-v2-demo.pages.dev' || /\.atlas-lab-v2-demo\.pages\.dev$/.test(host) || host.indexOf('atlas-demo.') === 0;
+  var mode = host === '127.0.0.1' || host === 'localhost' ? 'local' : (host.indexOf('staging-atlas.') === 0 ? 'staging' : (isAtlasPublicDemoHost ? 'public-demo' : 'prototype'));
   var labels = {
     local: 'Local Development',
     staging: 'Protected Staging',
