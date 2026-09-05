@@ -18,4 +18,5 @@ assert(read('index.html').indexOf('deploymentBanner') !== -1);
 assert(read('index.html').indexOf('mobile-bottom-nav') !== -1);
 assert(read('atlas-deployment.js').indexOf('Public Demo — Fictional Data Only') !== -1);
 assert(read('atlas-deployment.js').indexOf('atlas-lab-v2-demo.pages.dev') !== -1);
+assert(read('app.js').indexOf("el.hasAttribute('data-public-restricted') && deployment().isPublicDemo()") !== -1);
 console.log('Online deployment and PWA checks passed.');

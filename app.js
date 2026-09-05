@@ -1604,7 +1604,7 @@
     });
 
     document.querySelectorAll('[data-owner-only]').forEach(function (el) {
-      el.hidden = !isOwner();
+      el.hidden = !isOwner() || (el.hasAttribute('data-public-restricted') && deployment().isPublicDemo());
     });
 
     var ownerAdminOnly = ['platformFundingForm', 'platformResultForm', 'withdrawalUpdateForm'];
