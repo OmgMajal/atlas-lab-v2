@@ -9,6 +9,7 @@ var mime = {
   '.js': 'application/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.webmanifest': 'application/manifest+json; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.jpg': 'image/jpeg'
@@ -24,6 +25,14 @@ http.createServer(function (request, response) {
   }
   fs.readFile(target, function (error, body) {
     if (error) {
+      if (!path.extname(clean)) {
+        fs.readFile(path.join(root, 'index.html'), function (fallbackError, fallback) {
+          if (fallbackError) { response.writeHead(404); response.end('Not found'); return; }
+          response.writeHead(200, { 'Content-Type': mime['.html'] });
+          response.end(fallback);
+        });
+        return;
+      }
       response.writeHead(404);
       response.end('Not found');
       return;

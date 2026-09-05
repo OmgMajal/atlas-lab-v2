@@ -71,6 +71,38 @@
   var calculatorCellContext = null;
   var calculatorDialogReturnFocus = null;
 
+  function deployment() {
+    return window.AtlasDeployment || { version: 'local', mode: 'local', label: 'Local Development', storageNotice: 'Prototype Mode — Browser-stored data only.', isPublicDemo: function () { return false; }, routeView: function () { return ''; } };
+  }
+
+  function updateDeploymentChrome() {
+    var config = deployment();
+    document.documentElement.setAttribute('data-atlas-environment', config.mode);
+    document.body.classList.toggle('is-public-demo', config.isPublicDemo());
+    var banner = document.getElementById('deploymentBanner');
+    if (banner) {
+      banner.innerHTML = '<div><strong>' + htmlEscape(config.label) + '</strong><span>' + htmlEscape(config.storageNotice) + '</span></div><div class="deployment-meta"><span>v' + htmlEscape(config.version) + '</span><span>Fictional/demo data only</span>' + (config.isPublicDemo() ? '<button id="resetPublicDemo" type="button" class="secondary-button">Reset Demo Data</button>' : '') + '</div>';
+      var reset = document.getElementById('resetPublicDemo');
+      if (reset) reset.addEventListener('click', resetPublicDemoData);
+    }
+    document.querySelectorAll('[data-public-restricted]').forEach(function (el) { el.hidden = config.isPublicDemo() || !isOwner(); });
+    document.querySelectorAll('.mobile-nav-item').forEach(function (item) {
+      var viewId = item.getAttribute('data-view');
+      item.hidden = !currentUser || !canView(viewId);
+      item.classList.toggle('is-active', activeViewId() === viewId);
+    });
+  }
+
+  function resetPublicDemoData() {
+    if (!deployment().isPublicDemo()) return;
+    if (!window.confirm('This resets demo data on this device only. It does not affect other visitors. Continue?')) return;
+    state = normalizeState(clone(seedState));
+    if (window.AtlasCalculatorDraftService && calculatorDraftStorage) window.AtlasCalculatorDraftService.clear(calculatorDraftStorage);
+    if (window.AtlasOddsStore) new window.AtlasOddsStore.BrowserStore().reset();
+    saveState();
+    render();
+  }
+
   function calculatorDraftSnapshot(reason) {
     return { sessionDraft: clone(calculatorSessionDraft), events: clone(calculatorSessionEvents), calculatorDraft: clone(calculatorDraft), assignments: clone(calculatorAssignments), calculationSnapshot: clone(calculatorResult), uiState: clone(calculatorLayout), saveReason: reason || 'autosave', editedBy: currentUser ? (currentUser.name || currentUser.username) : 'local profile' };
   }
@@ -504,6 +536,8 @@
   }
 
   function defaultViewForRole() {
+    var requested = deployment().routeView(String(window.location && window.location.pathname || ''));
+    if (requested && canView(requested)) return requested;
     if (isShareholderRole()) return 'profitLoss';
     if (isAdmin()) return 'dashboard';
     return 'dashboard';
@@ -1358,6 +1392,7 @@
     });
     updatePageMeta(viewId);
     if (viewId === 'odds' && window.AtlasOddsController) window.AtlasOddsController.mount(document.getElementById('atlasOddsMainMount'));
+    updateDeploymentChrome();
   }
 
   function updatePageMeta(viewId) {
@@ -1543,6 +1578,7 @@
 
   function updateAuthChrome() {
     var signedIn = !!currentUser;
+    updateDeploymentChrome();
     document.body.classList.toggle('is-authenticated', signedIn);
     document.body.classList.toggle('is-guest', !signedIn);
     if (!signedIn) {
@@ -1559,6 +1595,7 @@
       var viewId = item.getAttribute('data-view');
       item.hidden = !canView(viewId);
     });
+    updateDeploymentChrome();
 
     document.querySelectorAll('form').forEach(function (form) {
       var kind = formKind(form);
@@ -7810,6 +7847,18 @@
       button.addEventListener('click', function () {
         activateView(button.getAttribute('data-view'));
       });
+    });
+    document.querySelectorAll('.mobile-nav-item').forEach(function (button) {
+      button.addEventListener('click', function () {
+        activateView(button.getAttribute('data-view'));
+        document.querySelector('.rail').classList.remove('is-mobile-menu-open');
+        document.querySelector('.mobile-menu-button').setAttribute('aria-expanded', 'false');
+      });
+    });
+    var mobileMenu = document.querySelector('.mobile-menu-button');
+    if (mobileMenu) mobileMenu.addEventListener('click', function () {
+      var rail = document.querySelector('.rail'), open = !rail.classList.contains('is-mobile-menu-open');
+      rail.classList.toggle('is-mobile-menu-open', open); mobileMenu.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     var from = document.getElementById('filterFrom');

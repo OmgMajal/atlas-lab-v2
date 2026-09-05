@@ -17,6 +17,7 @@ var checks = [
   ['Odds Intelligence foundation regression', ['tests/odds-intelligence-tests.js']],
   ['Event Matching regression', ['tests/event-matching-tests.js']],
   ['Calculator draft persistence regression', ['tests/calculator-draft-tests.js']],
+  ['Online deployment and PWA regression', ['tests/online-deployment-tests.js']],
   ['Atlas acceptance regression', ['tests/atlas-acceptance-tests.mjs']]
 ];
 

@@ -3314,6 +3314,45 @@ body.calculator-has-workbench .calculator-topbar {
   }
 }
 
+/* Online prototype / PWA chrome */
+.deployment-banner { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 0 14px; padding:10px 14px; border:1px solid #b9d1c5; border-radius:10px; background:#edf7f1; color:#174b35; font-size:12px; }
+.deployment-banner > div { display:flex; align-items:center; flex-wrap:wrap; gap:7px 10px; }
+.deployment-banner strong { font-size:13px; }
+.deployment-banner span { color:#416858; }
+.deployment-meta { justify-content:flex-end; }
+.deployment-meta .secondary-button { min-height:36px; }
+html[data-atlas-environment="public-demo"] .deployment-banner { border-color:#e8bf75; background:#fff7e8; color:#7a4a00; }
+.mobile-bottom-nav { display:none; }
+.odds-mobile-event-cards { display:none; }
+
+@media (max-width: 760px) {
+  body { padding-bottom:calc(66px + env(safe-area-inset-bottom)); }
+  input, select, textarea { font-size:16px; }
+  .rail { position:fixed; inset:0 0 auto 0; z-index:80; max-height:0; overflow:hidden; padding:0 12px; border:0; background:var(--sidebar-background); transition:max-height 180ms ease, padding 180ms ease; }
+  .rail.is-mobile-menu-open { max-height:78dvh; padding:12px; overflow:auto; border-bottom:1px solid var(--line); box-shadow:0 12px 28px rgba(10,45,33,.18); }
+  .rail .brand { display:none; }
+  .rail .nav-list { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .rail .nav-item { justify-content:flex-start; min-height:46px; padding:10px; }
+  .rail .nav-item span { display:inline; font-size:12px; }
+  .mobile-bottom-nav { position:fixed; z-index:90; right:0; bottom:0; left:0; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:1px; padding:6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); border-top:1px solid var(--line); background:var(--sidebar-background); box-shadow:0 -6px 18px rgba(10,45,33,.1); }
+  .mobile-bottom-nav button { min-height:46px; border:0; border-radius:8px; background:transparent; color:var(--muted); font:inherit; font-size:12px; font-weight:700; }
+  .mobile-bottom-nav button.is-active { color:var(--green); background:#edf7f1; }
+  .deployment-banner { align-items:flex-start; flex-direction:column; margin-bottom:12px; padding:10px; }
+  .deployment-meta { justify-content:flex-start; }
+  .main { padding:12px; }
+  .table-wrap, .lab-table-wrap, .shareholder-table-wrap { position:relative; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .table-wrap::after, .lab-table-wrap::after { content:"Swipe for more columns"; position:sticky; left:0; display:block; width:max-content; padding:5px 8px; color:var(--muted); background:var(--color-surface-secondary, #f5f8f6); font-size:11px; }
+  .odds-scenario-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .odds-scenario-grid .lab-switch { width:100%; min-height:44px; }
+  .odds-scenario-grid b { margin-left:42px; overflow:hidden; text-overflow:ellipsis; }
+  .lab-row-actions button, .compact-session-actions button { min-height:44px; }
+  .odds-events-table { display:none; }
+  .odds-mobile-event-cards { display:grid; gap:10px; }
+  .odds-mobile-event-card { display:grid; gap:5px; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--color-surface, #fff); }
+  .odds-mobile-event-card > span, .odds-mobile-event-card small { color:var(--muted); font-size:12px; }
+  .odds-mobile-event-card footer { display:flex; justify-content:space-between; gap:12px; padding-top:7px; border-top:1px solid var(--line); font-size:12px; }
+}
+
 /* Atlas centralized appearance system */
 html { color-scheme: light; background: var(--color-background); }
 html[data-appearance-mode="dark"] { color-scheme: dark; }
@@ -4001,4 +4040,13 @@ html[data-workspace-mode="calculator"] body.is-calculator-workspace .calculator-
   .validation-row { grid-template-columns: 1fr auto; }
   .validation-row span { grid-column: 1 / -1; }
   .theme-approval-item { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .rail { position:fixed; inset:0 0 auto 0; z-index:80; width:auto; height:auto; max-height:0; overflow:hidden; padding:0 12px; border:0; background:var(--sidebar-background); transition:max-height 180ms ease, padding 180ms ease; }
+  .rail.is-mobile-menu-open { max-height:78dvh; padding:12px; overflow:auto; border-bottom:1px solid var(--line); box-shadow:0 12px 28px rgba(10,45,33,.18); }
+  .rail .brand { display:none; }
+  .rail .nav-list { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .rail .nav-item { justify-content:flex-start; min-height:46px; padding:10px; }
+  .rail .nav-item span { display:inline; font-size:12px; }
 }

@@ -1,0 +1,20 @@
+'use strict';
+var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var root = path.resolve(__dirname, '..');
+function read(file) { return fs.readFileSync(path.join(root, file), 'utf8'); }
+['manifest.webmanifest', 'service-worker.js', 'offline.html', '_redirects', '_headers', 'atlas-deployment.js', 'icons/atlas-192.svg', 'icons/atlas-512.svg', 'docs/DEPLOYMENT_CLOUDFLARE.md', 'docs/ANDROID_APP_PLAN.md', 'docs/DEPLOYMENT_CHECKLIST.md'].forEach(function (file) { assert(fs.existsSync(path.join(root, file)), file + ' must exist'); });
+var manifest = JSON.parse(read('manifest.webmanifest'));
+assert.equal(manifest.display, 'standalone');
+assert.equal(manifest.start_url, '/');
+assert(manifest.icons.some(function (icon) { return icon.sizes === '192x192'; }));
+assert(manifest.icons.some(function (icon) { return icon.sizes === '512x512' && icon.purpose.indexOf('maskable') !== -1; }));
+assert(read('_redirects').indexOf('/* /index.html 200') !== -1);
+assert(read('_headers').indexOf('X-Content-Type-Options: nosniff') !== -1);
+assert(read('service-worker.js').indexOf('offline.html') !== -1);
+assert(read('index.html').indexOf('manifest.webmanifest') !== -1);
+assert(read('index.html').indexOf('deploymentBanner') !== -1);
+assert(read('index.html').indexOf('mobile-bottom-nav') !== -1);
+assert(read('atlas-deployment.js').indexOf('Public Demo — Fictional Data Only') !== -1);
+console.log('Online deployment and PWA checks passed.');

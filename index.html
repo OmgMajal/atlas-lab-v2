@@ -3,8 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atlas Lab V2 | Capital Management</title>
+  <meta name="theme-color" content="#0c3b2e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/atlas-192.svg" type="image/svg+xml">
+  <title>Atlas | Operations Prototype</title>
   <script src="atlas-theme-service.js?v=1"></script>
+  <script src="atlas-deployment.js?v=1"></script>
   <script>window.AtlasThemeService.bootstrapFromStorage('atlas-lab-v2-atlas-state-v1');</script>
   <link rel="stylesheet" href="styles.css?v=11">
 </head>
@@ -48,7 +54,7 @@
           <span>Capital Desk</span>
         </div>
       </div>
-      <nav class="nav-list">
+      <nav id="mainNavigation" class="nav-list">
         <button class="nav-item active" data-view="dashboard" title="Dashboard">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Zm10 7h6V4h-6v16ZM4 20h6v-5H4v5Z"></path></svg>
           <span>Dashboard</span>
@@ -139,11 +145,11 @@
             <span>To</span>
             <input id="filterTo" type="date">
           </label>
-          <button id="resetData" class="icon-button" title="Clear all data" type="button" data-owner-only>
+          <button id="resetData" class="icon-button" title="Clear all data" type="button" data-owner-only data-public-restricted>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3L4 10M4 15a8 8 0 0 0 14 3l2-4"></path></svg>
           </button>
-          <button id="exportData" class="secondary-button" type="button" data-owner-only>Export Data</button>
-          <button id="importDataButton" class="secondary-button" type="button" data-owner-only>Import Data</button>
+          <button id="exportData" class="secondary-button" type="button" data-owner-only data-public-restricted>Export Data</button>
+          <button id="importDataButton" class="secondary-button" type="button" data-owner-only data-public-restricted>Import Data</button>
           <input id="importDataFile" type="file" accept="application/json,.json" hidden>
           <div class="session-pill">
             <span id="sessionName">Not signed in</span>
@@ -152,6 +158,7 @@
           <button id="logoutButton" class="secondary-button" type="button">Sign Out</button>
         </div>
       </header>
+      <section id="deploymentBanner" class="deployment-banner" aria-live="polite"></section>
 
       <section id="dashboard" class="view active">
         <div class="kpi-grid">
@@ -1747,6 +1754,12 @@
       <footer id="globalBrandFooter" class="global-brand-footer" hidden></footer>
     </main>
   </div>
+  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-item" data-view="dashboard" type="button">Home</button>
+    <button class="mobile-nav-item" data-view="calculator" type="button">Calculator</button>
+    <button class="mobile-nav-item" data-view="odds" type="button" hidden>Odds</button>
+    <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="mainNavigation">Menu</button>
+  </nav>
 
   <dialog id="conversationDialog" class="conversation-dialog">
     <div class="dialog-head">
@@ -1787,5 +1800,10 @@
   <script src="app.js?v=21" onload="document.documentElement.setAttribute('data-app-loaded', 'yes')" onerror="document.documentElement.setAttribute('data-app-load-error', 'yes')"></script>
   <script src="atlas-appearance-controller.js?v=1"></script>
   <script src="atlas-lab-controller.js?v=1"></script>
+  <script>
+    if ('serviceWorker' in navigator) window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/service-worker.js').catch(function (error) { console.warn('Atlas offline shell unavailable.', error); });
+    });
+  </script>
 </body>
 </html>
