@@ -57,6 +57,7 @@
   var expandedTreeGroups = {};
   var currentSession = loadSession();
   var currentUser = null;
+  var initialRouteApplied = false;
   var calculatorSessionDraft = createCalculatorSessionDraft();
   var calculatorSessionEvents = [];
   var activeCalculatorEventId = '';
@@ -1661,6 +1662,11 @@
       );
     }
     if (!canView(activeViewId())) activateView(defaultViewForRole());
+    if (!initialRouteApplied) {
+      initialRouteApplied = true;
+      var initialViewId = defaultViewForRole();
+      if (activeViewId() !== initialViewId) activateView(initialViewId);
+    }
     renderKpis();
     renderCalculator();
     if (activeViewId() === 'odds' && window.AtlasOddsController) window.AtlasOddsController.mount(document.getElementById('atlasOddsMainMount'));
